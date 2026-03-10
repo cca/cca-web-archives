@@ -1,0 +1,153 @@
+---
+interface Props {
+  archive: {
+    data: {
+      title: string;
+      domain: string;
+      fullUrl: string;
+      dateArchived: Date;
+      archiveFormat: string;
+      description: string;
+      thumbnailUrl?: string;
+    };
+  };
+}
+
+const { archive } = Astro.props;
+const {
+  title,
+  domain,
+  fullUrl,
+  dateArchived,
+  archiveFormat,
+  description,
+  thumbnailUrl,
+} = archive.data;
+const formattedDate = dateArchived.toLocaleDateString();
+---
+
+<div
+  class="archive-card"
+  data-archive-format={archiveFormat}
+  data-title={title.toLowerCase()}
+  data-domain={domain.toLowerCase()}
+>
+  <!-- TODO alt text should be field on collection -->
+  {
+    thumbnailUrl ? (
+      <img
+        src={thumbnailUrl}
+        alt={`Thumbnail for ${title}`}
+        class="thumbnail"
+      />
+    ) : (
+      <div class="thumbnail placeholder">No Preview</div>
+    )
+  }
+  <div class="content">
+    <h3>{title}</h3>
+    <p class="domain"><code>{domain}</code></p>
+    <p class="description">{description}</p>
+    <div class="meta">
+      <span class="format-badge">{archiveFormat}</span>
+      <span class="date">{formattedDate}</span>
+    </div>
+    <a href={fullUrl} target="_blank" rel="noopener noreferrer" class="link"
+      >View Archive &rarr;</a
+    >
+  </div>
+</div>
+
+<style>
+  .archive-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .archive-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .thumbnail {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: #f0f0f0;
+  }
+
+  .placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 1.2rem;
+  }
+
+  .content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    color: #333;
+  }
+
+  .domain {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0 0 1rem;
+  }
+
+  .description {
+    font-size: 1rem;
+    color: #444;
+    line-height: 1.5;
+    margin: 0 0 1.5rem;
+    flex-grow: 1;
+  }
+
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .format-badge {
+    background: #eee;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #555;
+  }
+
+  .date {
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  .link {
+    display: inline-block;
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .link:hover {
+    text-decoration: underline;
+  }
+</style>
