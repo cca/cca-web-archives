@@ -22,7 +22,6 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
     "@eslint/js": "^10.0.1",
-    "@types/eslint__js": "^8.42.3",
     "@typescript-eslint/eslint-plugin": "^8.56",
     "@typescript-eslint/parser": "^8.56",
     "eslint": "^10.0.2",
