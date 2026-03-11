@@ -11,9 +11,10 @@ const archives = defineCollection({
     dateArchived: z.string().transform((str) => new Date(str)),
     archiveFormat: z.enum(['static-html', 'warc', 'other']),
     description: z.string(),
-    thumbnailUrl: z.string().optional(),
+    thumbnailUrl: z.string().url().optional(),
+    thumbnailAltText: z.string().optional(),
   }),
-})
+});
 
 export const collections = {
   archives,

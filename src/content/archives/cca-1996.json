@@ -5,5 +5,6 @@
   "dateArchived": "2024-01-15",
   "archiveFormat": "static-html",
   "description": "The first version of the CCA website, featuring 90s aesthetic.",
-  "thumbnailUrl": "thumbnails/cca.edu.png"
+  "thumbnailUrl": "https://placehold.co/600x400?text=CCA+1996",
+  "thumbnailAltText": "Screenshot of the 1996 CCA website with a gray background and pixelated graphics."
 }

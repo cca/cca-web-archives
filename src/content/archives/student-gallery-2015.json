@@ -5,5 +5,6 @@
   "dateArchived": "2024-03-05",
   "archiveFormat": "other",
   "description": "A PDF compilation of the student gallery pages from 2015.",
-  "thumbnailUrl": "https://placehold.co/600x400?text=Student+Gallery+2015"
+  "thumbnailUrl": "https://placehold.co/600x400?text=Student+Gallery+2015",
+  "thumbnailAltText": "Compilation of student artwork including paintings, sculpture, and digital design."
 }

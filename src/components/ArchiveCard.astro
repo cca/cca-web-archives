@@ -9,6 +9,7 @@ interface Props {
       archiveFormat: string;
       description: string;
       thumbnailUrl?: string;
+      thumbnailAltText?: string;
     };
   };
 }
@@ -22,6 +23,7 @@ const {
   archiveFormat,
   description,
   thumbnailUrl,
+  thumbnailAltText,
 } = archive.data;
 const formattedDate = dateArchived.toLocaleDateString();
 ---
@@ -32,12 +34,11 @@ const formattedDate = dateArchived.toLocaleDateString();
   data-title={title.toLowerCase()}
   data-domain={domain.toLowerCase()}
 >
-  <!-- TODO alt text should be field on collection -->
   {
     thumbnailUrl ? (
       <img
         src={thumbnailUrl}
-        alt={`Thumbnail for ${title}`}
+        alt={thumbnailAltText || ""}
         class="thumbnail"
       />
     ) : (
