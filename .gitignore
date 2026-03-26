@@ -17,6 +17,9 @@ pnpm-debug.log*
 .env
 .env.production
 
+# Internet Archive configuration
+ia.ini
+
 # macOS-specific files
 .DS_Store
 
