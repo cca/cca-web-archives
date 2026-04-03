@@ -17,7 +17,8 @@ def main():
     )
     session = get_session(config_file="ia.ini")
     print(session.whoami())
-    # item: Item = session.get_item("your-identifier")
+    item: Item = session.get_item("your-identifier")
+    assert item
     # response = item.upload(["fil"], metadata={"title": "My Item Title"})
 
 
