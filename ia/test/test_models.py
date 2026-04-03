@@ -365,8 +365,8 @@ def test_iametadata_with_all_fields():
     )
 
     assert metadata.identifier == "comprehensive-test-item"
-    assert len(metadata.creator) == 2
-    assert len(metadata.subject) == 3
+    assert metadata.creator and len(metadata.creator) == 2
+    assert metadata.subject and len(metadata.subject) == 3
     assert metadata.ppi == 300
 
 
@@ -375,12 +375,12 @@ def test_iametadata_with_aliases():
     metadata = IAMetadata(
         identifier="alias-test-item",
         mediatype="texts",
-        **{
+        **{  # type: ignore
             "creator-alt-script": "作者名",
             "title-alt-script": "タイトル",
             "page-progression": "rl",
             "bookreader-defaults": "mode/2up",
-        }
+        },
     )
 
     assert metadata.creator_alt_script == "作者名"
@@ -412,10 +412,10 @@ def test_only_identifier_and_mediatype_required():
         identifier="test-item-12345",
         mediatype="texts",
     )
-    
+
     assert metadata.identifier == "test-item-12345"
     assert metadata.mediatype == "texts"
-    
+
     # Verify all other fields are None (optional)
     assert metadata.title is None
     assert metadata.description is None
@@ -437,14 +437,14 @@ def test_account_identifier_validation():
         mediatype="account",
     )
     assert metadata.identifier == "@testuser"
-    
+
     # Valid account identifier with dashes and underscores
     metadata = IAMetadata(
         identifier="@test-user_123",
         mediatype="account",
     )
     assert metadata.identifier == "@test-user_123"
-    
+
     # Invalid - account identifier too short after @
     with pytest.raises(ValidationError) as exc_info:
         IAMetadata(
@@ -467,11 +467,11 @@ def test_identifier_format_validation():
         "12345",
         "abcde",
     ]
-    
+
     for identifier in valid_identifiers:
         metadata = IAMetadata(identifier=identifier, mediatype="texts")
         assert metadata.identifier == identifier
-    
+
     # Invalid identifiers
     invalid_identifiers = [
         "-starts-with-dash",
@@ -482,7 +482,7 @@ def test_identifier_format_validation():
         "has/slashes",
         "has@symbol",  # @ not allowed except at start for account items
     ]
-    
+
     for identifier in invalid_identifiers:
         with pytest.raises(ValidationError):
             IAMetadata(identifier=identifier, mediatype="texts")
