@@ -2,9 +2,12 @@
 dist/
 # generated types
 .astro/
+# eslint
+.eslintcache
 
 # dependencies
 node_modules/
+.venv/
 
 # logs
 npm-debug.log*
