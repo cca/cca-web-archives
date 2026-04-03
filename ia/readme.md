@@ -13,3 +13,10 @@ uv sync # install python project
 cp example.env .env
 vim .env # edit in IA S3 credentials
 ```
+
+## Test
+
+```sh
+uv run pytest # run tests
+uv run ruff check . --fix # lint files and auto-fix
+```
