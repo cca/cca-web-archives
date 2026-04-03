@@ -6,7 +6,7 @@ https://archive.org/developers/metadata-schema/index.html
 """
 
 import re
-from typing import Annotated, List, Literal, Optional
+from typing import Annotated, List, Literal, Optional, Union
 
 from pydantic import BaseModel, ConfigDict, Field, StringConstraints, field_validator
 
@@ -99,7 +99,7 @@ class IAMetadata(BaseModel):
     )
 
     # Creator/Contributor information
-    creator: Optional[List[str]] = Field(
+    creator: Optional[Union[str, List[str]]] = Field(
         default=None, description="Individual(s) or organization that created the media content"
     )
     creator_alt_script: Optional[str] = Field(
@@ -117,18 +117,18 @@ class IAMetadata(BaseModel):
     publisher: Optional[str] = Field(default=None, description="Publisher of the media")
 
     # Collections and classification
-    collection: Optional[List[str]] = Field(
+    collection: Optional[Union[str, List[str]]] = Field(
         default=None, description="Collection(s) this item belongs to"
     )
-    subject: Optional[List[str]] = Field(
+    subject: Optional[Union[str, List[str]]] = Field(
         default=None, description="Subjects and/or topics covered by the media content"
     )
 
     # Language and location
-    language: Optional[List[str]] = Field(
+    language: Optional[Union[str, List[str]]] = Field(
         default=None, description="Language the media is written or recorded in"
     )
-    coverage: Optional[List[str]] = Field(
+    coverage: Optional[Union[str, List[str]]] = Field(
         default=None, description="Geographic or subject area covered by item"
     )
 
@@ -142,21 +142,21 @@ class IAMetadata(BaseModel):
     )
 
     # Identifiers
-    isbn: Optional[List[str]] = Field(default=None, description="ISBN-10 or ISBN-13")
-    issn: Optional[List[str]] = Field(default=None, description="ISSN identifier")
-    lccn: Optional[List[str]] = Field(
+    isbn: Optional[Union[str, List[str]]] = Field(default=None, description="ISBN-10 or ISBN-13")
+    issn: Optional[Union[str, List[str]]] = Field(default=None, description="ISSN identifier")
+    lccn: Optional[Union[str, List[str]]] = Field(
         default=None, description="Library of Congress Call Number"
     )
-    oclc_id: Optional[List[str]] = Field(
+    oclc_id: Optional[Union[str, List[str]]] = Field(
         default=None, alias="oclc-id", description="OCLC identifier"
     )
     identifier_ark: Optional[str] = Field(
         default=None, alias="identifier-ark", description="Archival Resource Key identifier"
     )
-    identifier_bib: Optional[List[str]] = Field(
+    identifier_bib: Optional[Union[str, List[str]]] = Field(
         default=None, alias="identifier-bib", description="Additional local identifiers"
     )
-    external_identifier: Optional[List[str]] = Field(
+    external_identifier: Optional[Union[str, List[str]]] = Field(
         default=None,
         alias="external-identifier",
         description="URLs or identifiers to outside resources",
@@ -176,12 +176,12 @@ class IAMetadata(BaseModel):
         alias="openlibrary_work",
         description="Open Library work identifier (OL#W)",
     )
-    openlibrary_author: Optional[List[str]] = Field(
+    openlibrary_author: Optional[Union[str, List[str]]] = Field(
         default=None,
         alias="openlibrary_author",
         description="Open Library author identifier (OL#A)",
     )
-    openlibrary_subject: Optional[List[str]] = Field(
+    openlibrary_subject: Optional[Union[str, List[str]]] = Field(
         default=None, alias="openlibrary_subject", description="Open Library subject tags"
     )
 
@@ -191,7 +191,7 @@ class IAMetadata(BaseModel):
         alias="call_number",
         description="Contributing library's local call number",
     )
-    size: Optional[List[str]] = Field(
+    size: Optional[Union[str, List[str]]] = Field(
         default=None, description="Size of physical item digitized"
     )
     condition: Optional[
@@ -270,7 +270,7 @@ class IAMetadata(BaseModel):
     )
 
     # Audio/Video specific fields
-    runtime: Optional[List[str]] = Field(
+    runtime: Optional[Union[str, List[str]]] = Field(
         default=None, description="Length of audio or video item (HH:MM:SS)"
     )
     aspect_ratio: Optional[str] = Field(
@@ -336,7 +336,7 @@ class IAMetadata(BaseModel):
     )
 
     # Additional metadata
-    notes: Optional[List[str]] = Field(
+    notes: Optional[Union[str, List[str]]] = Field(
         default=None, description="Additional notes about the item"
     )
     title_alt_script: Optional[str] = Field(

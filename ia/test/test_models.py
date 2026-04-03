@@ -486,3 +486,127 @@ def test_identifier_format_validation():
     for identifier in invalid_identifiers:
         with pytest.raises(ValidationError):
             IAMetadata(identifier=identifier, mediatype="texts")
+
+
+def test_repeatable_fields_accept_string_or_list():
+    """
+    Test that repeatable fields accept both string and list values.
+
+    Per IA documentation, repeatable fields can be either:
+    - str (single value)
+    - List[str] (multiple values)
+    - None (not set)
+
+    The model should preserve the type as-is, not normalize.
+    """
+    # Test single string values are preserved as strings
+    metadata = IAMetadata(
+        identifier="test-string-values",
+        mediatype="texts",
+        collection="ol_data",  # String
+        creator="Single Author",  # String
+        subject="topic",  # String
+        language="eng",  # String
+        isbn="978-0-123456-78-9",  # String
+    )
+
+    assert metadata.collection == "ol_data"
+    assert isinstance(metadata.collection, str)
+    assert metadata.creator == "Single Author"
+    assert isinstance(metadata.creator, str)
+    assert metadata.subject == "topic"
+    assert isinstance(metadata.subject, str)
+    assert metadata.language == "eng"
+    assert isinstance(metadata.language, str)
+    assert metadata.isbn == "978-0-123456-78-9"
+    assert isinstance(metadata.isbn, str)
+
+    # Test that lists are preserved as lists
+    metadata2 = IAMetadata(
+        identifier="test-list-values",
+        mediatype="texts",
+        collection=["california-archive-citizen", "government-documents"],
+        creator=["Author One", "Author Two"],
+        subject=["topic1", "topic2"],
+        language=["eng", "spa"],
+    )
+
+    assert metadata2.collection == [
+        "california-archive-citizen",
+        "government-documents",
+    ]
+    assert isinstance(metadata2.collection, list)
+    assert metadata2.creator == ["Author One", "Author Two"]
+    assert isinstance(metadata2.creator, list)
+    assert metadata2.subject == ["topic1", "topic2"]
+    assert isinstance(metadata2.subject, list)
+    assert metadata2.language == ["eng", "spa"]
+    assert isinstance(metadata2.language, list)
+
+    # Test that None remains None
+    metadata3 = IAMetadata(
+        identifier="test-none-values",
+        mediatype="texts",
+    )
+
+    assert metadata3.collection is None
+    assert metadata3.creator is None
+    assert metadata3.subject is None
+
+
+def test_all_repeatable_fields_accept_both_types():
+    """Test that all repeatable fields can accept strings OR lists."""
+    # Test with string values
+    string_fields = {
+        "collection": "test-collection",
+        "creator": "Test Creator",
+        "subject": "test-subject",
+        "language": "eng",
+        "coverage": "test-coverage",
+        "isbn": "123-456",
+        "issn": "1234-5678",
+        "lccn": "12345678",
+        "oclc-id": "123456",
+        "identifier-bib": "bib123",
+        "external-identifier": "ext123",
+        "openlibrary_author": "OL123A",
+        "openlibrary_subject": "subject",
+        "size": "8x10",
+        "runtime": "01:30:00",
+        "notes": "Test note",
+    }
+
+    metadata = IAMetadata(
+        identifier="test-all-strings",
+        mediatype="texts",
+        **string_fields,  # type: ignore
+    )
+
+    # All should be preserved as strings
+    assert metadata.collection == "test-collection"
+    assert isinstance(metadata.collection, str)
+    assert metadata.creator == "Test Creator"
+    assert isinstance(metadata.creator, str)
+    assert metadata.subject == "test-subject"
+    assert isinstance(metadata.subject, str)
+
+    # Test with list values
+    list_fields = {
+        "collection": ["col1", "col2"],
+        "creator": ["Author1", "Author2"],
+        "subject": ["subj1", "subj2"],
+        "language": ["eng", "spa"],
+        "isbn": ["123", "456"],
+    }
+
+    metadata2 = IAMetadata(
+        identifier="test-all-lists",
+        mediatype="texts",
+        **list_fields,  # type: ignore
+    )
+
+    # All should be preserved as lists
+    assert metadata2.collection == ["col1", "col2"]
+    assert isinstance(metadata2.collection, list)
+    assert metadata2.creator == ["Author1", "Author2"]
+    assert isinstance(metadata2.creator, list)
