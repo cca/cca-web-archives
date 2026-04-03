@@ -6,9 +6,9 @@ https://archive.org/developers/metadata-schema/index.html
 """
 
 import re
-from typing import List, Literal, Optional
+from typing import Annotated, List, Literal, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints, field_validator
 
 
 class IAMetadata(BaseModel):
@@ -18,10 +18,15 @@ class IAMetadata(BaseModel):
     """
 
     # Required fields (only identifier and mediatype are required by IA)
-    identifier: str = Field(
+    identifier: Annotated[
+        str,
+        StringConstraints(
+            min_length=5,
+            max_length=100,
+            pattern=r"^(@?[A-Za-z0-9][A-Za-z0-9._-]*)$",
+        ),
+    ] = Field(
         ...,
-        min_length=5,
-        max_length=100,
         description=(
             "Unique identifier for an item on archive.org. "
             "Must contain only Roman alphabet characters, numbers, periods (.), "

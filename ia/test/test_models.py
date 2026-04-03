@@ -241,6 +241,55 @@ from models import IAMetadata
             False,
             "invalid-account-identifier-too-short",
         ),
+        # Invalid cases - invalid characters that are not allowed
+        (
+            {
+                "identifier": "test!item",  # Exclamation mark not allowed
+                "mediatype": "texts",
+            },
+            False,
+            "invalid-identifier-exclamation-mark",
+        ),
+        (
+            {
+                "identifier": "test&item",  # Ampersand not allowed
+                "mediatype": "texts",
+            },
+            False,
+            "invalid-identifier-ampersand",
+        ),
+        (
+            {
+                "identifier": "test%item",  # Percent sign not allowed
+                "mediatype": "texts",
+            },
+            False,
+            "invalid-identifier-percent-sign",
+        ),
+        (
+            {
+                "identifier": "test[item]",  # Brackets not allowed
+                "mediatype": "texts",
+            },
+            False,
+            "invalid-identifier-brackets",
+        ),
+        (
+            {
+                "identifier": "test+item",  # Plus sign not allowed
+                "mediatype": "texts",
+            },
+            False,
+            "invalid-identifier-plus-sign",
+        ),
+        (
+            {
+                "identifier": "test=item",  # Equals sign not allowed
+                "mediatype": "texts",
+            },
+            False,
+            "invalid-identifier-equals-sign",
+        ),
         # Invalid cases - invalid condition value
         (
             {
