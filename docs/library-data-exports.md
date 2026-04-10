@@ -23,12 +23,39 @@ Eric's Drive > Computers > Clytemnestra > COUNTER5 > [all_data](https://drive.go
 
 Many JSON and TSV files. COUNTER files are abstract enough that they do not present a privacy issue.
 
-### LibApps
-
 ### 360 CORE
 
-Serials Solution > [Management Reports](https://clientcenter.serialssolutions.com/CC/Reports/QueuedReports.aspx?LibraryCode=CC9) > Database Details Report > Request Report.
+#### DB Subscriptions
 
-**TBD** other reports here? Tracked resources/journals/ebooks?
+Serials Solution > [Management Reports](https://clientcenter.serialssolutions.com/CC/Reports/QueuedReports.aspx?LibraryCode=CC9) > Database Details Report > Request Report. This is the report of all our subscribed databases, including OA ones.
 
-**TBD** - [Usage statistics](https://intota.hosted.exlibrisgroup.com/Home/Reports)
+#### Complete Tracked Resources
+
+In the same place, select the **Tracked Resources** report. This is every title included in our Summon index, which is a very large list of some 650,000 titles (ebooks, journals, and videos). It is too large to import into Google Sheets, though you can use a connected BigQuery project. I created a `tracked-resources-bigquery` project in Google Cloud for this purpose. Appending data into the existing dataset's table in the project looks like this:
+
+```sh
+gcloud components install bq # one-time install of bq CLI
+# column_name_character_map fixes illegal Database/Provider column name
+bq load \
+    --source_format=CSV \
+    --autodetect \
+    --skip_leading_rows=1 \
+    --noreplace \
+    --column_name_character_map=V2 \
+    $DATASET.$TABLE_NAME \
+    path/to/Tracked_Resources.csv
+```
+
+Another alternative would be to inspect the data using Python's [pandas](https://pandas.pydata.org/).
+
+We should probably just concatenate and zip the two CSVs together for archival purposes.
+
+#### Usage Statistics (TODO)
+
+[Usage statistics](https://intota.hosted.exlibrisgroup.com/Home/Reports)
+
+Do we want these?
+
+### Statistics Presentations
+
+Download from [Library Data page](https://libraries.cca.edu/about-us/about-us/library-data/) in a couple of formats, e.g. PDF and PPTX.
