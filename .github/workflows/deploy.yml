@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   ci:
-    uses: ./.github/workflows/ci.yml
+    uses: ./.github/workflows/js-test-lint.yml
 
   build:
     needs: ci

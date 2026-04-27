@@ -16,6 +16,7 @@ on:
       - 'ia/uv.lock'
       - '.github/workflows/python-lint.yml'
   workflow_call:
+  workflow_dispatch:
 
 permissions:
   contents: read

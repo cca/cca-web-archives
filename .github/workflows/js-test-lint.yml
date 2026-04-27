@@ -26,6 +26,7 @@ on:
       - 'tsconfig.json'
       - '.github/workflows/ci.yml'
   workflow_call:
+  workflow_dispatch:
 
 permissions:
   contents: read
