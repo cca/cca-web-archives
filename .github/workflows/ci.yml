@@ -3,8 +3,28 @@ name: CI
 on:
   push:
     branches: [main]
+    paths:
+      - 'astro.config.mjs'
+      - 'content.config.ts'
+      - 'eslint.config.js'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'public/**'
+      - 'src/**'
+      - 'tsconfig.json'
+      - '.github/workflows/ci.yml'
   pull_request:
     branches: [main]
+    paths:
+      - 'astro.config.mjs'
+      - 'content.config.ts'
+      - 'eslint.config.js'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'public/**'
+      - 'src/**'
+      - 'tsconfig.json'
+      - '.github/workflows/ci.yml'
   workflow_call:
 
 permissions:

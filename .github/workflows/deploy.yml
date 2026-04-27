@@ -3,12 +3,18 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    paths:
+      - 'astro.config.mjs'
+      - 'content.config.ts'
+      - 'public/**'
+      - 'src/**'
+      - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
   id-token: write
+  pages: write
 
 jobs:
   ci:
