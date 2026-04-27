@@ -50,9 +50,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        # Must allow builds for 2 packages or pnpm install fails
-        run: |
-          pnpm install --config.allow-builds esbuild --config.allow-builds sharp
+        run: pnpm install
 
       - name: Lint and Check
         run: pnpm test

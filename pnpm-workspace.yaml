@@ -1,0 +1,5 @@
+# Tried so many ways to approve these builds during CI
+# but adding this extra file seems to be the only way
+allowBuilds:
+  esbuild: true
+  sharp: true
