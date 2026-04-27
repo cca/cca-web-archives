@@ -11,8 +11,8 @@ const archives = defineCollection({
     dateArchived: z.string().transform((str) => new Date(str)),
     archiveFormat: z.enum(['static-html', 'warc', 'other', 'internet-archive']),
     description: z.string(),
-    // relative or absolute URL
-    thumbnailUrl: z.string().url().or(z.string().regex(/^[./]/)).optional(),
+    // We can't use .url() because some are relative paths to local thumbnails
+    thumbnailUrl: z.string().optional(),
     thumbnailAltText: z.string().optional(),
   }),
 });
