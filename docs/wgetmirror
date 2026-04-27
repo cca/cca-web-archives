@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: ./wgetmirror <domain>
+DOMAIN=$1
+wget --mirror --convert-links --adjust-extension --page-requisites --no-parent --output-file=$DOMAIN.log --domains=$DOMAIN https://$DOMAIN
