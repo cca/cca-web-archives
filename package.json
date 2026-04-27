@@ -16,7 +16,7 @@
     "test": "npm run check && npm run lint"
   },
   "dependencies": {
-    "astro": "~5.18.1",
+    "astro": "~6.1.8",
     "zod": "^4.3.6"
   },
   "devDependencies": {
