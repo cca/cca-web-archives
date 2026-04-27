@@ -9,9 +9,10 @@ const archives = defineCollection({
     domain: z.string(),
     fullUrl: z.string().url(),
     dateArchived: z.string().transform((str) => new Date(str)),
-    archiveFormat: z.enum(['static-html', 'warc', 'other']),
+    archiveFormat: z.enum(['static-html', 'warc', 'other', 'internet-archive']),
     description: z.string(),
-    thumbnailUrl: z.string().url().optional(),
+    // relative or absolute URL
+    thumbnailUrl: z.string().url().or(z.string().regex(/^[./]/)).optional(),
     thumbnailAltText: z.string().optional(),
   }),
 });
