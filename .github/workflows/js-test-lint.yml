@@ -1,4 +1,4 @@
-name: CI
+name: JavaScript Tests & Linting
 
 on:
   push:
@@ -49,6 +49,9 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
+        env:
+          # Install will fail if these build scripts aren't approved
+          pnpm_config_only_built_dependencies: "esbuild,sharp"
         run: pnpm install
 
       - name: Lint and Check

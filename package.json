@@ -30,11 +30,5 @@
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^6",
     "typescript-eslint": "^8.59.0"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "sharp"
-    ]
   }
 }
