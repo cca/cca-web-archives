@@ -52,7 +52,7 @@ jobs:
       - name: Install dependencies
         # Must allow builds for 2 packages or pnpm install fails
         run: |
-          pnpm install --config.only-built-dependencies=esbuild,sharp
+          pnpm install --config.allow-builds esbuild --config.allow-builds sharp
 
       - name: Lint and Check
         run: pnpm test
