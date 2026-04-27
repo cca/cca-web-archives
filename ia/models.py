@@ -13,7 +13,7 @@ from pydantic import BaseModel, ConfigDict, Field, StringConstraints, field_vali
 
 class IAMetadata(BaseModel):
     """Internet Archive item metadata model.
-    
+
     Only identifier and mediatype are required fields. All other fields are optional.
     """
 
@@ -46,13 +46,13 @@ class IAMetadata(BaseModel):
         "collection",
         "account",
     ] = Field(..., description="Type of media content in the item")
-    
+
     @field_validator("identifier")
     @classmethod
     def validate_identifier(cls, v: str) -> str:
         """
         Validate identifier format according to IA requirements.
-        
+
         Rules:
         - Length: 5-100 characters
         - Characters: Roman alphabet, numbers, periods (.), underscores (_), dashes (-)
@@ -60,7 +60,7 @@ class IAMetadata(BaseModel):
         """
         if len(v) < 5 or len(v) > 100:
             raise ValueError("Identifier must be between 5 and 100 characters")
-        
+
         # Account identifiers can start with @
         if v.startswith("@"):
             # Check rest of identifier after @
@@ -81,12 +81,13 @@ class IAMetadata(BaseModel):
                     "Identifier must start with alphanumeric character "
                     "and contain only letters, numbers, periods, underscores, or dashes"
                 )
-        
+
         return v
-    
+
     # All other fields are optional
     addeddate: Optional[str] = Field(
-        default=None, description="Date and time item was added to public search or created"
+        default=None,
+        description="Date and time item was added to public search or created",
     )
     publicdate: Optional[str] = Field(
         default=None, description="Date and time item was created on archive.org"
@@ -100,10 +101,13 @@ class IAMetadata(BaseModel):
 
     # Creator/Contributor information
     creator: Optional[Union[str, List[str]]] = Field(
-        default=None, description="Individual(s) or organization that created the media content"
+        default=None,
+        description="Individual(s) or organization that created the media content",
     )
     creator_alt_script: Optional[str] = Field(
-        default=None, alias="creator-alt-script", description="Creator in alternate script"
+        default=None,
+        alias="creator-alt-script",
+        description="Creator in alternate script",
     )
     contributor: Optional[str] = Field(
         default=None,
@@ -133,7 +137,9 @@ class IAMetadata(BaseModel):
     )
 
     # Rights and licensing
-    licenseurl: Optional[str] = Field(default=None, description="URL of the selected license")
+    licenseurl: Optional[str] = Field(
+        default=None, description="URL of the selected license"
+    )
     rights: Optional[str] = Field(default=None, description="Rights statement")
     possible_copyright_status: Optional[str] = Field(
         default=None,
@@ -142,8 +148,12 @@ class IAMetadata(BaseModel):
     )
 
     # Identifiers
-    isbn: Optional[Union[str, List[str]]] = Field(default=None, description="ISBN-10 or ISBN-13")
-    issn: Optional[Union[str, List[str]]] = Field(default=None, description="ISSN identifier")
+    isbn: Optional[Union[str, List[str]]] = Field(
+        default=None, description="ISBN-10 or ISBN-13"
+    )
+    issn: Optional[Union[str, List[str]]] = Field(
+        default=None, description="ISSN identifier"
+    )
     lccn: Optional[Union[str, List[str]]] = Field(
         default=None, description="Library of Congress Call Number"
     )
@@ -151,7 +161,9 @@ class IAMetadata(BaseModel):
         default=None, alias="oclc-id", description="OCLC identifier"
     )
     identifier_ark: Optional[str] = Field(
-        default=None, alias="identifier-ark", description="Archival Resource Key identifier"
+        default=None,
+        alias="identifier-ark",
+        description="Archival Resource Key identifier",
     )
     identifier_bib: Optional[Union[str, List[str]]] = Field(
         default=None, alias="identifier-bib", description="Additional local identifiers"
@@ -182,7 +194,9 @@ class IAMetadata(BaseModel):
         description="Open Library author identifier (OL#A)",
     )
     openlibrary_subject: Optional[Union[str, List[str]]] = Field(
-        default=None, alias="openlibrary_subject", description="Open Library subject tags"
+        default=None,
+        alias="openlibrary_subject",
+        description="Open Library subject tags",
     )
 
     # Physical item metadata
@@ -284,13 +298,16 @@ class IAMetadata(BaseModel):
         description="Frequency at which consecutive images are displayed",
     )
     audio_codec: Optional[str] = Field(
-        default=None, alias="audio_codec", description="Program used to decode audio stream"
+        default=None,
+        alias="audio_codec",
+        description="Program used to decode audio stream",
     )
     audio_sample_rate: Optional[int] = Field(
         default=None, alias="audio_sample_rate", description="Audio samples per second"
     )
     color: Optional[str] = Field(
-        default=None, description="Indicates whether media is in color or black and white"
+        default=None,
+        description="Indicates whether media is in color or black and white",
     )
     sound: Optional[Literal["sound", "silent"]] = Field(
         default=None, description="Indicates whether media has sound or is silent"
@@ -306,10 +323,12 @@ class IAMetadata(BaseModel):
 
     # Web archive specific fields
     firstfiledate: Optional[str] = Field(
-        default=None, description="Creation date of earliest file in item (YYYYMMDDHHMMSS)"
+        default=None,
+        description="Creation date of earliest file in item (YYYYMMDDHHMMSS)",
     )
     lastfiledate: Optional[str] = Field(
-        default=None, description="Creation date of oldest file in item (YYYYMMDDHHMMSS)"
+        default=None,
+        description="Creation date of oldest file in item (YYYYMMDDHHMMSS)",
     )
 
     # Collection specific fields
@@ -330,7 +349,9 @@ class IAMetadata(BaseModel):
             "titleSorter",
             "-titleSorter",
         ]
-    ] = Field(default=None, alias="sort-by", description="Default collection sort order")
+    ] = Field(
+        default=None, alias="sort-by", description="Default collection sort order"
+    )
     summary: Optional[str] = Field(
         default=None, description="Summary section for collection pages"
     )
@@ -345,7 +366,9 @@ class IAMetadata(BaseModel):
 
     # Deprecated fields
     year: Optional[str] = Field(
-        default=None, deprecated=True, description="Deprecated. Use 'date' field instead"
+        default=None,
+        deprecated=True,
+        description="Deprecated. Use 'date' field instead",
     )
 
     # Internal/system fields (read-only)
@@ -364,7 +387,9 @@ class IAMetadata(BaseModel):
         description="Collection contents are restricted access",
     )
     access_restricted_item: Optional[Literal["true"]] = Field(
-        default=None, alias="access-restricted-item", description="Item is access-restricted"
+        default=None,
+        alias="access-restricted-item",
+        description="Item is access-restricted",
     )
 
     model_config = ConfigDict(
@@ -398,13 +423,25 @@ class IAFileMetadata(BaseModel):
     md5: Optional[str] = Field(default=None, description="MD5 checksum")
     crc32: Optional[str] = Field(default=None, description="CRC32 checksum")
     sha1: Optional[str] = Field(default=None, description="SHA1 checksum")
-    length: Optional[str] = Field(default=None, description="Length/duration for media files")
-    height: Optional[str] = Field(default=None, description="Height in pixels for image/video")
-    width: Optional[str] = Field(default=None, description="Width in pixels for image/video")
-    track: Optional[str] = Field(default=None, description="Track number for audio files")
-    title: Optional[str] = Field(default=None, description="Track title for audio files")
+    length: Optional[str] = Field(
+        default=None, description="Length/duration for media files"
+    )
+    height: Optional[str] = Field(
+        default=None, description="Height in pixels for image/video"
+    )
+    width: Optional[str] = Field(
+        default=None, description="Width in pixels for image/video"
+    )
+    track: Optional[str] = Field(
+        default=None, description="Track number for audio files"
+    )
+    title: Optional[str] = Field(
+        default=None, description="Track title for audio files"
+    )
     album: Optional[str] = Field(default=None, description="Album name for audio files")
-    artist: Optional[str] = Field(default=None, description="Artist name for audio files")
+    artist: Optional[str] = Field(
+        default=None, description="Artist name for audio files"
+    )
     creator: Optional[str] = Field(default=None, description="Creator of the file")
 
     model_config = ConfigDict(
