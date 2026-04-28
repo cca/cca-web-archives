@@ -6,13 +6,24 @@ Simple command-line archiving of smaller sites without much interactivity. These
 
 - [`httrack`](https://www.httrack.com/page/2/en/index.html) - no update since 2017, `brew install httrack`
 - [`wget`](https://man7.org/linux/man-pages/man1/wget.1.html) - common web utility, `brew install wget`
+- [`wayback`](https://github.com/wabarc/wayback) - CLI to archive to IA & other archives, confusingly not the same as the IA's Wayback Machine
 
 ```bash
 httrack "https://gradthesis2007.cca.edu" -O "gradthesis2007.cca.edu" "gradthesis2007.cca.edu/*" -v
 wget --mirror --convert-links --adjust-extension --page-requisites --no-parent --domains=example.com http://example.com
+wayback https://gradthesis2007.cca.edu # only does one page, submits to several archives, not just IA
+wayback urls.txt # archive all URLs in a file, TODO need to find a way to limit archives submitted to
 ```
 
 Try the `wgetmirror` script which just accepts a domain and runs the wget command above, saving output to a log file.
+
+The archive-specific flags for `wayback` like `--ia` still submit to _all_ five services the tool uses. To skip some, create a wayback.conf file like the one below. I couldn't figure out how to disable Ghost Archive.
+
+```env
+WAYBACK_ENABLE_IS=false
+WAYBACK_ENABLE_IP=false
+WAYBACK_ENABLE_PH=false
+```
 
 ## Mirroring a Site on GitHub Pages
 
