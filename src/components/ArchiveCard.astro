@@ -25,7 +25,7 @@ const {
   thumbnailUrl,
   thumbnailAltText,
 } = archive.data;
-const formattedDate = dateArchived.toLocaleDateString();
+const formattedDate = dateArchived.toLocaleDateString('en-US', { timeZone: 'UTC' });
 ---
 
 <div
