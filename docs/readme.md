@@ -47,6 +47,12 @@ Question: one parent project for all web archives? I think this makes the most s
 1. Make the storage bucket public
 1. Add the URL to the CCA Web Archives
 
+## Scraping Only Portal Courses
+
+The Portal course catalog is hard to scrape with `wget` because the root /courses/ page is dynamic so it cannot be used as a starting point but we do not want to crawl the entirety of Portal, either. I've not found success with feeding an `--input-file` of all /courses/subjects/ANIMA URLs nor with flags like `--include-directories=/courses/` or `--accept-regex=/courses/.*` which in combination with the input file only download the subject pages but none of the courses linked on them. We may need to great a giant URL list of all courses and subjects. I compiled the original subjects list by looking at Portal's analytics.
+
+Another alternative; build a simple view in Portal to show the data in a scrapable format, as Eric and Tanza discussed about Showcase.
+
 ## Web Recorder
 
 Scripts for archiving Instagram accounts.
