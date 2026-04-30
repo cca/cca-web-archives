@@ -56,6 +56,21 @@ const formats = [...new Set(archives.map((a) => a.data.archiveFormat))];
             {formats.map((format) => <option value={format}>{format}</option>)}
           </select>
         </div>
+        <div class="filter-group">
+          <label for="sort">Sort By</label>
+          <select id="sort">
+            <option value="title">Site Title</option>
+            <option value="domain">Domain</option>
+            <option value="date">Date Archived</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="order">Order</label>
+          <select id="order">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </div>
       </section>
 
       <section class="gallery" id="gallery">
@@ -77,15 +92,21 @@ const formats = [...new Set(archives.map((a) => a.data.archiveFormat))];
       const formatSelect = document.getElementById(
         'format',
       ) as HTMLSelectElement;
+      const sortSelect = document.getElementById('sort') as HTMLSelectElement;
+      const orderSelect = document.getElementById('order') as HTMLSelectElement;
       const gallery = document.getElementById('gallery') as HTMLElement;
       const cards = Array.from(gallery.querySelectorAll('.archive-card'));
       const noResults = document.getElementById('no-results') as HTMLElement;
 
-      function filterGallery() {
+      function filterAndSortGallery() {
         const searchTerm = searchInput.value.toLowerCase();
         const selectedFormat = formatSelect.value;
+        const sortBy = sortSelect.value;
+        const sortOrder = orderSelect.value;
         let visibleCount = 0;
 
+        // Filter cards
+        const visibleCards: HTMLElement[] = [];
         cards.forEach((card) => {
           const title = card.getAttribute('data-title') || '';
           const domain = card.getAttribute('data-domain') || '';
@@ -98,11 +119,42 @@ const formats = [...new Set(archives.map((a) => a.data.archiveFormat))];
 
           if (matchesSearch && matchesFormat) {
             (card as HTMLElement).style.display = 'flex';
+            visibleCards.push(card as HTMLElement);
             visibleCount++;
           } else {
             (card as HTMLElement).style.display = 'none';
           }
         });
+
+        // Sort visible cards
+        visibleCards.sort((a, b) => {
+          let aValue: string | number;
+          let bValue: string | number;
+
+          if (sortBy === 'title') {
+            aValue = a.getAttribute('data-title') || '';
+            bValue = b.getAttribute('data-title') || '';
+          } else if (sortBy === 'domain') {
+            aValue = a.getAttribute('data-domain') || '';
+            bValue = b.getAttribute('data-domain') || '';
+          } else {
+            // date
+            aValue = new Date(a.getAttribute('data-date') || '').getTime();
+            bValue = new Date(b.getAttribute('data-date') || '').getTime();
+          }
+
+          if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
+          if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
+          return 0;
+        });
+
+        // Reorder cards in DOM
+        visibleCards.forEach((card) => {
+          gallery.appendChild(card);
+        });
+
+        // Always keep noResults at the end
+        gallery.appendChild(noResults);
 
         if (visibleCount === 0) {
           noResults.classList.remove('hidden');
@@ -111,8 +163,10 @@ const formats = [...new Set(archives.map((a) => a.data.archiveFormat))];
         }
       }
 
-      searchInput.addEventListener('input', filterGallery);
-      formatSelect.addEventListener('change', filterGallery);
+      searchInput.addEventListener('input', filterAndSortGallery);
+      formatSelect.addEventListener('change', filterAndSortGallery);
+      sortSelect.addEventListener('change', filterAndSortGallery);
+      orderSelect.addEventListener('change', filterAndSortGallery);
     </script>
 
     <style>
@@ -160,18 +214,20 @@ const formats = [...new Set(archives.map((a) => a.data.archiveFormat))];
 
       .filters {
         display: flex;
-        gap: 2rem;
+        gap: 1rem;
         margin: 3rem 0;
         background: #fff;
         padding: 1.5rem;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        flex-wrap: wrap;
       }
 
       .filter-group {
         display: flex;
         flex-direction: column;
-        flex-grow: 1;
+        flex: 1 1 200px;
+        min-width: 150px;
       }
 
       .filter-group label {
