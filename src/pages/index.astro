@@ -46,7 +46,7 @@ const formats = [...new Set(archives.map((a) => a.data.archiveFormat))];
           <input
             type="text"
             id="search"
-            placeholder="Search by title or domain..."
+            placeholder="Search title, domain, or keyword..."
           />
         </div>
         <div class="filter-group">
@@ -110,10 +110,11 @@ const formats = [...new Set(archives.map((a) => a.data.archiveFormat))];
         cards.forEach((card) => {
           const title = card.getAttribute('data-title') || '';
           const domain = card.getAttribute('data-domain') || '';
+          const description = card.getAttribute('data-description') || '';
           const format = card.getAttribute('data-archive-format') || '';
 
           const matchesSearch =
-            title.includes(searchTerm) || domain.includes(searchTerm);
+            title.includes(searchTerm) || domain.includes(searchTerm) || description.includes(searchTerm);
           const matchesFormat =
             selectedFormat === 'all' || format === selectedFormat;
 
