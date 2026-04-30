@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
 # USAGE: ./wgetmirror <domain>
 DOMAIN=$1
-wget --mirror --convert-links --adjust-extension --page-requisites --no-parent --output-file=$DOMAIN.log --domains=$DOMAIN https://$DOMAIN
+LOGFILE="$DOMAIN.log"
+wget --mirror --convert-links --adjust-extension --page-requisites --no-parent --output-file=$LOGFILE --domains=$DOMAIN https://$DOMAIN
+mv $LOGFILE $DOMAIN/
+cat <<EOF > $DOMAIN/readme.md
+# $DOMAIN
+
+This is a mirror of the website $DOMAIN, created using this command: \`wget --mirror --convert-links --adjust-extension --page-requisites --no-parent --output-file=$LOGFILE --domains=$DOMAIN https://$DOMAIN\`.
+
+© 2026 California College of the Arts.
+EOF
