@@ -2,7 +2,7 @@
 # USAGE: ./wgetmirror <domain>
 DOMAIN=$1
 LOGFILE="$DOMAIN.log"
-wget --mirror --convert-links --adjust-extension --page-requisites --no-parent --output-file=$LOGFILE --domains=$DOMAIN https://$DOMAIN
+wget --mirror --no-check-certificate --convert-links --adjust-extension --page-requisites --no-parent --output-file=$LOGFILE --domains=$DOMAIN https://$DOMAIN
 mv $LOGFILE $DOMAIN/
 cat <<EOF > $DOMAIN/readme.md
 # $DOMAIN
