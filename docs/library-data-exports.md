@@ -4,18 +4,24 @@ Various places we have data we can upload to the Internet Archive.
 
 ## Considerations
 
-- Privacy: nothing with PII
+- Privacy: nothing with PII or enough data to de-anonymize
 - Can any of this be automated or is it all clicking buttons in admin interfaces?
 
 ## The List
 
-### Koha MARC records
+### Koha
+
+#### MARC records
 
 Admin side > Cataloging > [Export Catalog Data](https://library-staff.cca.edu/cgi-bin/koha/tools/export.pl)
 
 Leave everything as the default for a full data export.
 
-Privacy: potential notes in item records? Acquisition notes in MARC?
+**Privacy**: potential notes in item records? Acquisition notes in MARC? Double check before exporting.
+
+#### Circulation Statistics
+
+Run the ["Anonymized Usage Statistics for Export" report](https://library-staff.cca.edu/cgi-bin/koha/reports/guided_reports.pl?id=471&op=run). This report returns checkout and renewal events alongside patron category and basic bibliographic information. Our smaller patron categories are combined into an "OTHER" field for privacy reasons while the largest circ categories (faculty, grad, and undergrad) are unchanged.
 
 ### COUNTER Statistics
 
@@ -54,7 +60,7 @@ We should probably just concatenate and zip the two CSVs together for archival p
 
 [Usage statistics](https://intota.hosted.exlibrisgroup.com/Home/Reports)
 
-Do we want these?
+Do we want these? They seem low value and we already have COUNTER reports.
 
 ### Statistics Presentations
 
