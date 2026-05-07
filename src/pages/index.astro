@@ -73,6 +73,10 @@ const formats = [...new Set(archives.map((a) => a.data.archiveFormat))];
         </div>
       </section>
 
+      <div id="results-count" class="results-count">
+        Showing {archives.length} of {archives.length} sites
+      </div>
+
       <section class="gallery" id="gallery">
         {archives.map((archive) => <ArchiveCard archive={archive} />)}
         <div id="no-results" class="hidden">
@@ -97,6 +101,8 @@ const formats = [...new Set(archives.map((a) => a.data.archiveFormat))];
       const gallery = document.getElementById('gallery') as HTMLElement;
       const cards = Array.from(gallery.querySelectorAll('.archive-card'));
       const noResults = document.getElementById('no-results') as HTMLElement;
+      const resultsCount = document.getElementById('results-count') as HTMLElement;
+      const totalCount = cards.length;
 
       function filterAndSortGallery() {
         const searchTerm = searchInput.value.toLowerCase();
@@ -156,6 +162,9 @@ const formats = [...new Set(archives.map((a) => a.data.archiveFormat))];
 
         // Always keep noResults at the end
         gallery.appendChild(noResults);
+
+        // Update results count
+        resultsCount.textContent = `Showing ${visibleCount} of ${totalCount} sites`;
 
         if (visibleCount === 0) {
           noResults.classList.remove('hidden');
@@ -245,6 +254,14 @@ const formats = [...new Set(archives.map((a) => a.data.archiveFormat))];
         border: 1px solid #ddd;
         border-radius: 4px;
         font-size: 1rem;
+      }
+
+      .results-count {
+        font-size: 0.9rem;
+        color: #999;
+        margin: 1rem 0;
+        text-align: center;
+        opacity: 0.8;
       }
 
       .gallery {
