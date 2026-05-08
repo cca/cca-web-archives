@@ -7,7 +7,7 @@ const archives = defineCollection({
   schema: z.object({
     title: z.string(),
     domain: z.string(),
-    fullUrl: z.string().url(),
+    fullUrl: z.url(),
     dateArchived: z.string().transform((str) => new Date(str)),
     archiveFormat: z.enum(['static-html', 'warc', 'other', 'internet-archive']),
     description: z.string(),
@@ -15,7 +15,7 @@ const archives = defineCollection({
     thumbnailUrl: z.string().optional(),
     thumbnailAltText: z.string().optional(),
   }),
-});
+})
 
 export const collections = {
   archives,
