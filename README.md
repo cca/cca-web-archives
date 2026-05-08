@@ -8,15 +8,13 @@ Inside of your Astro project, you'll see the following folders and files:
 
 ```text
 /
-├── public/          # Static assets (favicons, etc.)
+├── public/          # Static assets (site thumbnails)
 ├── src/
 │   ├── components/  # Astro components (ArchiveCard.astro)
 │   ├── content/     # Archived website data (JSON files)
 │   ├── pages/       # Website routes (index.astro)
 │   └── content.config.ts # Data schema and collection setup
-├── .github/
-│   └── workflows/   # CI/CD deployment to GitHub Pages
-└── package.json
+├── .github/workflows/   # CI/CD deployment to GitHub Pages
 ```
 
 ## 🧞 Commands

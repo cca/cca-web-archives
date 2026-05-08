@@ -1,6 +1,7 @@
-import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
-import eslintPluginAstro from 'eslint-plugin-astro';
+import eslint from '@eslint/js'
+import eslintPluginAstro from 'eslint-plugin-astro'
+import globals from 'globals'
+import tseslint from 'typescript-eslint'
 
 export default [
   // Global ignores
@@ -11,8 +12,11 @@ export default [
   ...tseslint.configs.recommended,
   ...eslintPluginAstro.configs.recommended,
   {
-    rules: {
-      // Add custom rules here
+    files: ['domainstub.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
     },
   },
 ];
