@@ -63,8 +63,8 @@ WAYBACK_ENABLE_IP=false
 WAYBACK_ENABLE_PH=false
 ```
 
-## Scraping Only Portal Courses
+## Scraping Only Portal Courses/Policies/etc
 
-The Portal course catalog is hard to scrape with `wget` because the root /courses/ page is dynamic so it cannot be used as a starting point but we do not want to crawl the entirety of Portal, either. I've not found success with feeding an `--input-file` of all /courses/subjects/ANIMA URLs nor with flags like `--include-directories=/courses/` or `--accept-regex=/courses/.*` which in combination with the input file only download the subject pages but none of the courses linked on them. We may need to great a giant URL list of all courses and subjects. I compiled the original subjects list by looking at Portal's analytics.
+Many sections of Portal are difficult to scrape because while content pages are static with interesting data, the index is dynamic and hard to scrape with `wget`. This true of both /policies/ and /courses/. I've not found success with feeding an `--input-file` of all /courses/subjects/ANIMA URLs nor with flags like `--include-directories=/courses/` or `--accept-regex=/courses/.*` which in combination with the input file only download the subject pages but none of the courses linked on them. We may need to great a giant URL list of all courses and subjects. I compiled the original subjects list by looking at Portal's analytics.
 
-Another alternative; build a simple view in Portal to show the data in a scrapable format, as Eric and Tanza discussed about Showcase.
+Another alternative; build a simple view in Portal to show the data in a scrapable format, as Eric and Tanza discussed about Showcase. Nick made a good point that we have structure course data in Workday, and anyone could build a frontend, so it is a less high priority project than one saving content not duplicated anywhere else (which is true for policies and showcase).
