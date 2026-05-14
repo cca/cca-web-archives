@@ -55,6 +55,8 @@ Dynamic sites which do not load all their content in the initial HTML (e.g. infi
   - If the WACZ is too large for GitHub Pages, it could be hosted elsewhere like GCP
   - [Studio Forward](https://github.com/cca/studioforward) is a minimal example. It could be copied & edited for use on other sites.
 
+  For large sites that need dynamic crawls (e.g. Portal), we could look into [running WebRecorder's Browsertrix locally](https://docs.browsertrix.com/deploy/local/) and writing custom [browser behaviors](https://crawler.docs.browsertrix.com/user-guide/behaviors/) to navigate the site.
+
 ## Internet Archive
 
 We can use [their Google Sheets service](https://archive.org/services/wayback-gsheets/) to archive 5k URLs at a time and 30k per day, see [this blog post](https://ws-dl.blogspot.com/2026/02/2026-02-12-how-to-archive-web-pages-in.html).
