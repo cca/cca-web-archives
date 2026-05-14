@@ -21,7 +21,7 @@ let template = {
   domain: `${domain}`,
   fullUrl: `https://${domain}/index.html`,
   dateArchived: new Date().toISOString().substring(0, 10),
-  archiveFormat: 'static-html',
+  archiveFormat: 'Static HTML',
   description: '',
   thumbnailUrl: `thumbnails/${domain}.png`,
   thumbnailAltText: ''
