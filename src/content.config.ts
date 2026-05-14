@@ -9,7 +9,7 @@ const archives = defineCollection({
     domain: z.string(),
     fullUrl: z.url(),
     dateArchived: z.string().transform((str) => new Date(str)),
-    archiveFormat: z.enum(['Static HTML', 'WARC', 'Web Recorder', 'Other', 'Internet Archive']),
+    archiveFormat: z.enum(['Static HTML', 'WARC', 'Webrecorder', 'Other', 'Internet Archive']),
     description: z.string(),
     // We can't use .url() because some are relative paths to local thumbnails
     thumbnailUrl: z.string().optional(),
