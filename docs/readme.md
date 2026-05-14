@@ -29,6 +29,22 @@ This approach is suitable to small sites without a lot of media, since GitHub ha
 
 Once a site has been mirrored to Github, `node domainstub.js` (in project root) creates a stub JSON file with the domain for the CCA Web Archives Gallery.
 
+### GitHub 100mb File Size Limit
+
+GitHub's file size limit is 100 MB, which some WACZ files may exceed. TL;DR: there is no good option using GitHub hosting for this, but we can attach the WACZ as a release asset and allow users to download and replay it themselves.
+
+We can follow the instructions for configuring [Git Large File Storage](https://git-lfs.com/) to work around this. However, then GitHub Pages will not fetch the WACZ, only the text pointer that LFS uses. I tried creating a GitHub Release with the WACZ as an asset, but WebRecorder refuses to load it from the github.com URL due to CORS. Finally, I tried deploying to GitHub Pages using a workflow with `lfs: true` in its checkout action. This also did not work, though it's not clear why; the WACZ file download if you load its URL. The [Build Lab](https://github.com/cca/build.cca.edu) archive is an example of this approach.
+
+```sh
+# LFS setup example
+git lfs install
+git lfs track "*.wacz"
+git add .gitattributes
+# now you can git add, commit, & push as usual
+# if you already have a commit with an existing large file in it, migrate it to LFS like so:
+git lfs migrate import --include="*.wacz" --everything
+```
+
 ## Mirroring a Site on GCP
 
 **TBD** do a complete trial run with this method and fill out the steps below

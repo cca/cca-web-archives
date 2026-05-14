@@ -19,13 +19,13 @@ const rl = readline.createInterface({
 let template = {
   title: `${domain}`,
   domain: `${domain}`,
-  fullUrl: `https://${domain}/index.html`,
+  fullUrl: `https://cca.github.io/${domain}/`,
   dateArchived: new Date().toISOString().substring(0, 10),
   archiveFormat: 'Static HTML',
   description: '',
   thumbnailUrl: `thumbnails/${domain}.png`,
-  thumbnailAltText: ''
-}
+  thumbnailAltText: '',
+};
 
 // Check for screenshot in Downloads, prompt to move it to thumbnails
 async function moveScreenshot() {
