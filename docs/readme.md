@@ -43,7 +43,17 @@ Question: one parent project for all web archives? I think this makes the most s
 
 ## Web Recorder
 
-Scripts for archiving Instagram accounts.
+Dynamic sites which do not load all their content in the initial HTML (e.g. infinite scroll, search filters, etc.) will not work when copied with `wget` or other naïve web archiving tools. [WebRecorder](https://webrecorder.net/) is a project which lets you record your interactions with a dynamic site and then "replay" them later. To use WebRecorder:
+
+- Install the recorder Chrome extension or desktop app
+- Open the site and start recording
+  - WebRecorder has an "autopilot" mode which will scroll infinitely but it does not interact in other ways such as clicking links or opening modal dialogs
+- Interact with the site _exhaustively_ to load all content: click all links, scroll to the edges, open modal dialogs, etc.
+- Stop recording (click **Cancel** for Chrome extension)
+- Download the WACZ from within WebRecorder
+- Create a static site for hosting the WACZ which uses the embedded replayer
+  - If the WACZ is too large for GitHub Pages, it could be hosted elsewhere like GCP
+  - [Studio Forward](https://github.com/cca/studioforward) is a minimal example. It could be copied & edited for use on other sites.
 
 ## Internet Archive
 
