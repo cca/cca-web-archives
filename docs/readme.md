@@ -31,12 +31,11 @@ Once a site has been mirrored to Github, `node domainstub.js` (in project root) 
 
 ### GitHub 100mb File Size Limit
 
-GitHub's file size limit is 100 MB, which some WACZ files may exceed. TL;DR: there is no good option using GitHub hosting for this, but we can attach the WACZ as a release asset and allow users to download and replay it themselves.
+GitHub's file size limit is 100 MB, which some WACZ files may exceed, but we can work around this using `git lfs` and a GitHub Action for deployment.
 
-We can follow the instructions for configuring [Git Large File Storage](https://git-lfs.com/) to work around this. However, then GitHub Pages will not fetch the WACZ, only the text pointer that LFS uses. I tried creating a GitHub Release with the WACZ as an asset, but WebRecorder refuses to load it from the github.com URL due to CORS. Finally, I tried deploying to GitHub Pages using a workflow with `lfs: true` in its checkout action. This also did not work, though it's not clear why; the WACZ file download if you load its URL. The [Build Lab](https://github.com/cca/build.cca.edu) archive is an example of this approach.
+We can follow the instructions for configuring [Git Large File Storage](https://git-lfs.com/) to work around this. However, then GitHub Pages will not fetch the WACZ, only the text pointer that LFS uses. I tried creating a GitHub Release with the WACZ as an asset, but WebRecorder refuses to load it from the github.com URL due to CORS. Finally, I tried deploying to GitHub Pages using a workflow with `lfs: true` in its checkout action. The [Build Lab](https://github.com/cca/build.cca.edu) archive is an example of this approach; see its [deploy](https://github.com/cca/build.cca.edu/blob/main/.github/workflows/deploy.yml) workflow.
 
 ```sh
-# LFS setup example
 git lfs install
 git lfs track "*.wacz"
 git add .gitattributes
