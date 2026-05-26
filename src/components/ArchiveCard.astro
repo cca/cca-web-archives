@@ -36,19 +36,23 @@ const formattedDate = dateArchived.toLocaleDateString('en-US', { timeZone: 'UTC'
   data-description={description.toLowerCase()}
   data-date={dateArchived.toISOString()}
 >
-  {
-    thumbnailUrl ? (
-      <img
-        src={thumbnailUrl}
-        alt={thumbnailAltText || ""}
-        class="thumbnail"
-      />
-    ) : (
-      <div class="thumbnail placeholder">No Preview</div>
-    )
-  }
+  <a href={fullUrl} class="thumbnail-link">
+    {
+      thumbnailUrl ? (
+        <img
+          src={thumbnailUrl}
+          alt={thumbnailAltText || ""}
+          class="thumbnail"
+        />
+      ) : (
+        <div class="thumbnail placeholder">No Preview</div>
+      )
+    }
+  </a>
   <div class="content">
-    <h3>{title}</h3>
+    <a href={fullUrl} class="title-link">
+      <h3>{title}</h3>
+    </a>
     <p class="domain"><code>{domain}</code></p>
     <p class="description">{description}</p>
     <div class="meta">
@@ -79,6 +83,11 @@ const formattedDate = dateArchived.toLocaleDateString('en-US', { timeZone: 'UTC'
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
+  .thumbnail-link {
+    display: block;
+    cursor: pointer;
+  }
+
   .thumbnail {
     width: 100%;
     height: 200px;
@@ -99,6 +108,16 @@ const formattedDate = dateArchived.toLocaleDateString('en-US', { timeZone: 'UTC'
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+  }
+
+  .title-link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .title-link:hover h3 {
+    text-decoration: none;
   }
 
   h3 {
