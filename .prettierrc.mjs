@@ -9,8 +9,8 @@ export default {
       },
     },
   ],
-  semi: true,
+  semi: false,
   singleQuote: true,
   tabWidth: 2,
   trailingComma: 'all',
-};
+}

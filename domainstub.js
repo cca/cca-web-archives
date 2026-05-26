@@ -13,7 +13,7 @@ if (!domain) {
 
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout
+  output: process.stdout,
 })
 
 let template = {
@@ -25,22 +25,33 @@ let template = {
   description: '',
   thumbnailUrl: `thumbnails/${domain}.png`,
   thumbnailAltText: '',
-};
+}
 
 // Check for screenshot in Downloads, prompt to move it to thumbnails
 async function moveScreenshot() {
-  const downloadsDir = path.join(process.env.HOME || process.env.USERPROFILE, 'Downloads',)
+  const downloadsDir = path.join(
+    process.env.HOME || process.env.USERPROFILE,
+    'Downloads',
+  )
   try {
     const files = await fs.readdir(downloadsDir)
     // reverse() should prioritize more recent timestamped screenshots on macOS
-    const screenshot = files.reverse().find(
-      (file) =>
-        file.toLowerCase().includes('screenshot') &&
-        file.toLowerCase().endsWith('.png'),
-    )
+    const screenshot = files
+      .reverse()
+      .find(
+        (file) =>
+          file.toLowerCase().includes('screenshot') &&
+          file.toLowerCase().endsWith('.png'),
+      )
     if (screenshot) {
-      console.log(chalk.magenta(`Found a screenshot in your Downloads folder: ${screenshot}`))
-      const answer = await rl.question('Would you like to move it to the thumbnails folder? (y/n) ')
+      console.log(
+        chalk.magenta(
+          `Found a screenshot in your Downloads folder: ${screenshot}`,
+        ),
+      )
+      const answer = await rl.question(
+        'Would you like to move it to the thumbnails folder? (y/n) ',
+      )
       if (answer.toLowerCase() === 'y') {
         const sourcePath = path.join(downloadsDir, screenshot)
         const destPath = path.join('public', 'thumbnails', `${domain}.png`)
@@ -50,7 +61,9 @@ async function moveScreenshot() {
         return console.log(chalk.yellow('Ok.'))
       }
     }
-  } catch (err) { return console.error(err) }
+  } catch (err) {
+    return console.error(err)
+  }
 }
 
 // Write JSON entry
@@ -64,14 +77,14 @@ if (!contentDirStats.isDirectory()) {
 
 const jsonPath = path.join(contentDirPath, `${domain}.json`)
 fs.stat(jsonPath)
-  .then(jsonStats => {
+  .then((jsonStats) => {
     if (jsonStats.isFile()) {
       console.error(chalk.yellow(`File already exists at ${jsonPath}`))
       return rl.question('Would you like to overwrite it? (y/n) ')
     }
     return 'y'
   })
-  .then(answer => {
+  .then((answer) => {
     if (answer?.toLowerCase() !== 'y') {
       console.log(chalk.yellow('Aborting. No changes were made.'))
       process.exit(0)

@@ -21,16 +21,16 @@ Inside of your Astro project, you'll see the following folders and files:
 
 All commands are run from the root of the project, from a terminal:
 
-| Command           | Action                                           |
-| :---------------- | :----------------------------------------------- |
-| `pnpm install`    | Installs dependencies                            |
-| `pnpm dev`        | Starts local dev server at `localhost:4321`      |
-| `pnpm build`      | Build your production site to `./dist/`          |
-| `pnpm preview`    | Preview your build locally, before deploying     |
-| `pnpm check`      | Validate Astro and TypeScript                    |
-| `pnpm lint`       | Run ESLint to check code quality                 |
-| `pnpm format`     | Format codebase with Prettier                    |
-| `pnpm test`       | Run all CI checks (check + lint)                 |
+| Command        | Action                                       |
+| :------------- | :------------------------------------------- |
+| `pnpm install` | Installs dependencies                        |
+| `pnpm dev`     | Starts local dev server at `localhost:4321`  |
+| `pnpm build`   | Build your production site to `./dist/`      |
+| `pnpm preview` | Preview your build locally, before deploying |
+| `pnpm check`   | Validate Astro and TypeScript                |
+| `pnpm lint`    | Run ESLint to check code quality             |
+| `pnpm format`  | Format codebase with Prettier                |
+| `pnpm test`    | Run all CI checks (check + lint)             |
 
 ## 🛠️ CI/CD & Maintenance
 

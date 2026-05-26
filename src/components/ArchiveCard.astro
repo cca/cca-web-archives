@@ -2,19 +2,19 @@
 interface Props {
   archive: {
     data: {
-      title: string;
-      domain: string;
-      fullUrl: string;
-      dateArchived: Date;
-      archiveFormat: string;
-      description: string;
-      thumbnailUrl?: string;
-      thumbnailAltText?: string;
-    };
-  };
+      title: string
+      domain: string
+      fullUrl: string
+      dateArchived: Date
+      archiveFormat: string
+      description: string
+      thumbnailUrl?: string
+      thumbnailAltText?: string
+    }
+  }
 }
 
-const { archive } = Astro.props;
+const { archive } = Astro.props
 const {
   title,
   domain,
@@ -24,8 +24,10 @@ const {
   description,
   thumbnailUrl,
   thumbnailAltText,
-} = archive.data;
-const formattedDate = dateArchived.toLocaleDateString('en-US', { timeZone: 'UTC' });
+} = archive.data
+const formattedDate = dateArchived.toLocaleDateString('en-US', {
+  timeZone: 'UTC',
+})
 ---
 
 <div
@@ -41,7 +43,7 @@ const formattedDate = dateArchived.toLocaleDateString('en-US', { timeZone: 'UTC'
       thumbnailUrl ? (
         <img
           src={thumbnailUrl}
-          alt={thumbnailAltText || ""}
+          alt={thumbnailAltText || ''}
           class="thumbnail"
         />
       ) : (

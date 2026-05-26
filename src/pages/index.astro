@@ -1,9 +1,9 @@
 ---
-import { getCollection } from 'astro:content';
-import ArchiveCard from '../components/ArchiveCard.astro';
+import { getCollection } from 'astro:content'
+import ArchiveCard from '../components/ArchiveCard.astro'
 
-const archives = await getCollection('archives');
-const formats = [...new Set(archives.map((a) => a.data.archiveFormat))];
+const archives = await getCollection('archives')
+const formats = [...new Set(archives.map((a) => a.data.archiveFormat))]
 ---
 
 <html lang="en">
@@ -92,91 +92,95 @@ const formats = [...new Set(archives.map((a) => a.data.archiveFormat))];
     </footer>
 
     <script>
-      const searchInput = document.getElementById('search') as HTMLInputElement;
+      const searchInput = document.getElementById('search') as HTMLInputElement
       const formatSelect = document.getElementById(
         'format',
-      ) as HTMLSelectElement;
-      const sortSelect = document.getElementById('sort') as HTMLSelectElement;
-      const orderSelect = document.getElementById('order') as HTMLSelectElement;
-      const gallery = document.getElementById('gallery') as HTMLElement;
-      const cards = Array.from(gallery.querySelectorAll('.archive-card'));
-      const noResults = document.getElementById('no-results') as HTMLElement;
-      const resultsCount = document.getElementById('results-count') as HTMLElement;
-      const totalCount = cards.length;
+      ) as HTMLSelectElement
+      const sortSelect = document.getElementById('sort') as HTMLSelectElement
+      const orderSelect = document.getElementById('order') as HTMLSelectElement
+      const gallery = document.getElementById('gallery') as HTMLElement
+      const cards = Array.from(gallery.querySelectorAll('.archive-card'))
+      const noResults = document.getElementById('no-results') as HTMLElement
+      const resultsCount = document.getElementById(
+        'results-count',
+      ) as HTMLElement
+      const totalCount = cards.length
 
       function filterAndSortGallery() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const selectedFormat = formatSelect.value;
-        const sortBy = sortSelect.value;
-        const sortOrder = orderSelect.value;
-        let visibleCount = 0;
+        const searchTerm = searchInput.value.toLowerCase()
+        const selectedFormat = formatSelect.value
+        const sortBy = sortSelect.value
+        const sortOrder = orderSelect.value
+        let visibleCount = 0
 
         // Filter cards
-        const visibleCards: HTMLElement[] = [];
+        const visibleCards: HTMLElement[] = []
         cards.forEach((card) => {
-          const title = card.getAttribute('data-title') || '';
-          const domain = card.getAttribute('data-domain') || '';
-          const description = card.getAttribute('data-description') || '';
-          const format = card.getAttribute('data-archive-format') || '';
+          const title = card.getAttribute('data-title') || ''
+          const domain = card.getAttribute('data-domain') || ''
+          const description = card.getAttribute('data-description') || ''
+          const format = card.getAttribute('data-archive-format') || ''
 
           const matchesSearch =
-            title.includes(searchTerm) || domain.includes(searchTerm) || description.includes(searchTerm);
+            title.includes(searchTerm) ||
+            domain.includes(searchTerm) ||
+            description.includes(searchTerm)
           const matchesFormat =
-            selectedFormat === 'all' || format === selectedFormat;
+            selectedFormat === 'all' || format === selectedFormat
 
           if (matchesSearch && matchesFormat) {
-            (card as HTMLElement).style.display = 'flex';
-            visibleCards.push(card as HTMLElement);
-            visibleCount++;
+            ;(card as HTMLElement).style.display = 'flex'
+            visibleCards.push(card as HTMLElement)
+            visibleCount++
           } else {
-            (card as HTMLElement).style.display = 'none';
+            ;(card as HTMLElement).style.display = 'none'
           }
-        });
+        })
 
         // Sort visible cards
         visibleCards.sort((a, b) => {
-          let aValue: string | number;
-          let bValue: string | number;
+          let aValue: string | number
+          let bValue: string | number
 
           if (sortBy === 'title') {
-            aValue = a.getAttribute('data-title') || '';
-            bValue = b.getAttribute('data-title') || '';
+            aValue = a.getAttribute('data-title') || ''
+            bValue = b.getAttribute('data-title') || ''
           } else if (sortBy === 'domain') {
-            aValue = a.getAttribute('data-domain') || '';
-            bValue = b.getAttribute('data-domain') || '';
+            aValue = a.getAttribute('data-domain') || ''
+            bValue = b.getAttribute('data-domain') || ''
           } else {
             // date
-            aValue = new Date(a.getAttribute('data-date') || '').getTime();
-            bValue = new Date(b.getAttribute('data-date') || '').getTime();
+            aValue = new Date(a.getAttribute('data-date') || '').getTime()
+            bValue = new Date(b.getAttribute('data-date') || '').getTime()
           }
 
-          if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
-          if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
-          return 0;
-        });
+          if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1
+          if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1
+          return 0
+        })
 
         // Reorder cards in DOM
         visibleCards.forEach((card) => {
-          gallery.appendChild(card);
-        });
+          gallery.appendChild(card)
+        })
 
         // Always keep noResults at the end
-        gallery.appendChild(noResults);
+        gallery.appendChild(noResults)
 
         // Update results count
-        resultsCount.textContent = `Showing ${visibleCount} of ${totalCount} sites`;
+        resultsCount.textContent = `Showing ${visibleCount} of ${totalCount} sites`
 
         if (visibleCount === 0) {
-          noResults.classList.remove('hidden');
+          noResults.classList.remove('hidden')
         } else {
-          noResults.classList.add('hidden');
+          noResults.classList.add('hidden')
         }
       }
 
-      searchInput.addEventListener('input', filterAndSortGallery);
-      formatSelect.addEventListener('change', filterAndSortGallery);
-      sortSelect.addEventListener('change', filterAndSortGallery);
-      orderSelect.addEventListener('change', filterAndSortGallery);
+      searchInput.addEventListener('input', filterAndSortGallery)
+      formatSelect.addEventListener('change', filterAndSortGallery)
+      sortSelect.addEventListener('change', filterAndSortGallery)
+      orderSelect.addEventListener('change', filterAndSortGallery)
     </script>
 
     <style>
