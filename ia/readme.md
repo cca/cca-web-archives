@@ -28,7 +28,6 @@ We can use `*` wildcards on domains to retrieve data about what content is alrea
 - **Summary**: captures in a time range by MIME type
 
 The top-level cca.edu domain has so much data that it is not very useful, but we might be able to investigate smaller subsites this way. For instance, [here is the 2007 grad thesis site](https://web.archive.org/web/*/gradthesis2007.cca.edu*) where the URLs and site map offer a more legible picture of how much of the site has been archived.
-f
 
 ## Checking Wayback Holdings Programmatically
 
@@ -39,6 +38,8 @@ The Wayback Machine has an additional [CDX API mentioned here](https://archive.o
 uv run python wb_coverage.py --match-type host --mime 'text/html' --status '^2' gradthesis2007.cca.edu
 # cca.edu captures for 2019-present
 uv run python wb_coverage.py --mt prefix --from 2019-01-01 cca.edu
+# compact an existing coverage CSV to the latest capture per SURT
+uv run python wb_coverage.py compact cca-edu.csv
 ```
 
 The script creates a CSV named after the query, e.g. "gradthesis2007-cca-edu.csv" or "cca-edu.csv".
@@ -46,25 +47,14 @@ The script creates a CSV named after the query, e.g. "gradthesis2007-cca-edu.csv
 Complete usage information is below. Note the mime type and status filters are regexes. There are other capture fields which could be filtered on as well if they're useful, but we will often want only `2XX` status responses and sometimes `text/html` MIME types.
 
 ```sh
-Usage: wb_coverage.py [OPTIONS] QUERY
+Usage: wb_coverage.py [OPTIONS] COMMAND [ARGS]...
 
-  Check Internet Archive Web Archive coverage for a site/domain.
-
-Options:
-  -h, --help                      Show this message and exit.
-  --match-type, --mt [exact|prefix|host|domain]
-                                  Type of match to perform
-  -l, --limit INTEGER             Maximum results per API request (NOT per
-                                  query)
-  --from [%Y-%m-%d]               Captures after this date (YYYY-MM-DD)
-  --to [%Y-%m-%d]                 Captures before this date (YYYY-MM-DD)
-  --mime TEXT                     Filter to captures with MIME type (regex,
-                                  ex. 'text/.*' for all text types)
-  --status TEXT                   Filter to captures with HTTP status (regex,
-                                  ex. '2..' for 200 status codes)
-  -o, --output FILE               Output CSV file path (defaults to sanitized
-                                  query with .csv extension)
+Commands:
+  search   Check Internet Archive Web Archive coverage for a site/domain.
+  compact  Trim coverage CSV to the latest capture row per SURT.
 ```
+
+`search` is the default command, so you can keep running `wb_coverage.py [OPTIONS] QUERY` without typing `search`.
 
 Match types (`--mt`):
 

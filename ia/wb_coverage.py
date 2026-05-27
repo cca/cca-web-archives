@@ -2,10 +2,24 @@
 
 import csv
 import re
+from pathlib import Path
 from typing import Any, Generator
 
 import click
 from wayback import CdxRecord, WaybackClient
+
+
+class DefaultCommandGroup(click.Group):
+    """Use a default subcommand when the first token is not a known command."""
+
+    def __init__(self, *args: Any, default_command: str, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        self.default_command = default_command
+
+    def parse_args(self, ctx: click.Context, args: list[str]) -> list[str]:
+        if args and args[0] not in self.commands and args[0] not in {"-h", "--help"}:
+            args.insert(0, self.default_command)
+        return super().parse_args(ctx, args)
 
 
 def sanitize_filename(name: str) -> str:
@@ -16,8 +30,60 @@ def sanitize_filename(name: str) -> str:
     return safe_name[0:250]
 
 
-@click.command()
+def _timestamp_order_key(timestamp: str) -> str:
+    """Build a sort key for timestamps in coverage CSV rows."""
+    digits: str = "".join(ch for ch in timestamp if ch.isdigit())
+    return digits[0:14] if len(digits) >= 14 else ""
+
+
+def compact_coverage_csv(input_csv: Path, output_csv: Path) -> tuple[int, int]:
+    """Trim a coverage CSV to latest capture per SURT and write output CSV."""
+    with open(input_csv, "r", newline="", encoding="utf-8") as input_file:
+        reader = csv.DictReader(input_file)
+        if reader.fieldnames is None:
+            raise click.ClickException("Input CSV is missing a header row")
+
+        required_fields: set[str] = {"sorting key", "timestamp"}
+        missing_fields: set[str] = required_fields.difference(reader.fieldnames)
+        if missing_fields:
+            missing: str = ", ".join(sorted(missing_fields))
+            raise click.ClickException(
+                f"Input CSV is missing required columns: {missing}"
+            )
+
+        latest_by_surt: dict[str, dict[str, str]] = {}
+        row_count: int = 0
+        for row in reader:
+            row_count += 1
+            surt: str = row.get("sorting key", "")
+            current_timestamp: str = row.get("timestamp", "")
+            previous: dict[str, str] | None = latest_by_surt.get(surt)
+            if previous is None:
+                latest_by_surt[surt] = row
+                continue
+
+            previous_timestamp: str = previous.get("timestamp", "")
+            if _timestamp_order_key(current_timestamp) >= _timestamp_order_key(
+                previous_timestamp
+            ):
+                latest_by_surt[surt] = row
+
+    with open(output_csv, "w", newline="", encoding="utf-8") as output_file:
+        writer = csv.DictWriter(output_file, fieldnames=reader.fieldnames)
+        writer.writeheader()
+        for row in latest_by_surt.values():
+            writer.writerow(row)
+
+    return row_count, len(latest_by_surt)
+
+
+@click.group(cls=DefaultCommandGroup, default_command="search")
 @click.help_option("-h", "--help")
+def cli() -> None:
+    """Check IA Web Archive coverage and post-process coverage CSVs."""
+
+
+@cli.command("search")
 @click.argument("query", nargs=1, required=True, type=str)
 @click.option(
     "--match-type",
@@ -59,18 +125,17 @@ def sanitize_filename(name: str) -> str:
     type=click.Path(dir_okay=False, writable=True, resolve_path=True),
     help="Output CSV file path (defaults to sanitized query with .csv extension)",
 )
-# TODO can we filter to only the _latest_ captures?
 # TODO debug print parameters before request, can we print number of results?
 def search_wayback(
     query: str,
-    match_type: str,
-    limit: int,
+    match_type: str | None,
+    limit: int | None,
     from_date,
     to_date,
-    mime: str,
-    status: str,
-    output: str,
-):
+    mime: str | None,
+    status: str | None,
+    output: str | None,
+) -> None:
     """Check Internet Archive Web Archive coverage for a site/domain."""
     client: WaybackClient = WaybackClient()
     # Construct query parameters
@@ -128,5 +193,34 @@ def search_wayback(
             # TODO progress bar
 
 
+@cli.command("compact")
+@click.argument(
+    "input_csv",
+    type=click.Path(
+        exists=True,
+        dir_okay=False,
+        readable=True,
+        resolve_path=True,
+        path_type=Path,
+    ),
+)
+@click.option(
+    "--output",
+    "-o",
+    type=click.Path(dir_okay=False, writable=True, resolve_path=True, path_type=Path),
+    help="Output CSV path (defaults to '<input>-compact.csv')",
+)
+def compact(input_csv: Path, output: Path | None) -> None:
+    """Trim coverage CSV to the latest capture row per SURT (sorting key)."""
+    default_output: Path = input_csv.with_name(
+        f"{input_csv.stem}-compact{input_csv.suffix}"
+    )
+    output_csv: Path = output or default_output
+    in_count, out_count = compact_coverage_csv(input_csv, output_csv)
+    click.echo(
+        f"Compacted {in_count} rows in {input_csv} to {out_count} rows in {output_csv}"
+    )
+
+
 if __name__ == "__main__":
-    search_wayback()
+    cli()
