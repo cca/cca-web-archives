@@ -10,7 +10,7 @@ dependencies = [
     "pydantic==2.13.4",
     "python-dotenv>=1.2.2",
     "rich>=14.3.3",
-    "wayback>=0.4.5",
+    "wayback==0.5.0",
 ]
 
 [dependency-groups]

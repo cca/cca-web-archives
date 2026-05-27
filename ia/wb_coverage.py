@@ -105,7 +105,7 @@ def search_wayback(
         writer.writerow(
             [
                 "sorting key",
-                "url",
+                "original",
                 "timestamp",
                 "status code",
                 "mime type",
@@ -116,11 +116,11 @@ def search_wayback(
         for capture in results:
             writer.writerow(
                 [
-                    capture.key,
-                    capture.url,
+                    capture.urlkey,
+                    capture.original,
                     capture.timestamp,
-                    capture.status_code,
-                    capture.mime_type,
+                    capture.statuscode,
+                    capture.mimetype,
                     capture.raw_url,
                     capture.view_url,
                 ]
