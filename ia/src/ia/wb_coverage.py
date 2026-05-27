@@ -85,6 +85,7 @@ def cli() -> None:
 
 @cli.command("search")
 @click.argument("query", nargs=1, required=True, type=str)
+@click.help_option("-h", "--help")
 @click.option(
     "--match-type",
     "--mt",
@@ -194,6 +195,7 @@ def search_wayback(
 
 
 @cli.command("compact")
+@click.help_option("-h", "--help")
 @click.argument(
     "input_csv",
     type=click.Path(
@@ -211,7 +213,7 @@ def search_wayback(
     help="Output CSV path (defaults to '<input>-compact.csv')",
 )
 def compact(input_csv: Path, output: Path | None) -> None:
-    """Trim coverage CSV to the latest capture row per SURT (sorting key)."""
+    """Trim coverage CSV to the latest capture row per URL."""
     default_output: Path = input_csv.with_name(
         f"{input_csv.stem}-compact{input_csv.suffix}"
     )

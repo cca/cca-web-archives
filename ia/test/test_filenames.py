@@ -1,12 +1,6 @@
-import sys
-from pathlib import Path
-
 import pytest
 
-# Add parent directory to path to allow importing models
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from wb_coverage import sanitize_filename
+from ia.wb_coverage import sanitize_filename
 
 
 @pytest.mark.parametrize(

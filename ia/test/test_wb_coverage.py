@@ -1,13 +1,9 @@
 import csv
-import sys
 from pathlib import Path
 
 from click.testing import CliRunner
 
-# Add parent directory to path to allow importing wb_coverage
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-import wb_coverage
+from ia import wb_coverage
 
 
 def test_compact_coverage_csv_keeps_latest_per_surt(tmp_path: Path) -> None:

@@ -13,8 +13,14 @@ dependencies = [
     "wayback==0.5.0",
 ]
 
+[project.scripts]
+wb_coverage = "ia.wb_coverage:cli"
+
 [dependency-groups]
 dev = [
     "pytest>=9.0.2",
     "ruff==0.15.14",
 ]
+
+[tool.setuptools.packages.find]
+where = ["src"]

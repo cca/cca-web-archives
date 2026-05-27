@@ -2,16 +2,10 @@
 Tests for Internet Archive metadata models.
 """
 
-import sys
-from pathlib import Path
-
 import pytest
 from pydantic import ValidationError
 
-# Add parent directory to path to allow importing models
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from models import IAMetadata
+from ia.models import IAMetadata
 
 
 @pytest.mark.parametrize(
