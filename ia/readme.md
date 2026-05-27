@@ -1,8 +1,6 @@
 # Internet Archive
 
-https://archive.org/developers/internetarchive/index.html
-
-https://archive.org/developers/metadata-schema/index.html
+See IA's documentation on [its python library](https://archive.org/developers/internetarchive/index.html) and [metadata schema](https://archive.org/developers/metadata-schema/index.html) for reference.
 
 ## Setup
 
@@ -67,3 +65,20 @@ Options:
   -o, --output FILE               Output CSV file path (defaults to sanitized
                                   query with .csv extension)
 ```
+
+Match types (`--mt`):
+
+- `host`: match same domain, `--mt host cca.edu` matches `cca.edu` but not `libraries.cca.edu`
+- `domain`: match domain _and subdomains_, `--mt domain cca.edu` matches `libraries.cca.edu` and `cca.edu`
+- `prefix`: URLs with a common prefix which is good for a path-separated subsite, e.g. `libraries.cca.edu/exhibitions` or `portal.cca.edu/courses`
+- `exact` (default): one specific page, `libraries.cca.edu/about-us/about-us/staff`
+
+There are [some nuances](https://wayback.readthedocs.io/en/stable/usage.html#wayback.WaybackClient) for convenience. All URL patterns match both http/https, are case insensitive, and www. and www\*. subdomains are treated as no subdomain at all (e.g. `cca.edu` = `www.cca.edu`). Wildcards can be used and they convert the match type as appropriate; so `*.cca.edu` is the same as `--mt domain cca.edu` while `cca.edu/*` is the same as `--mt prefix cca.edu`.
+
+## Two Wayback Repos
+
+To avoid confusion, keep in mind the difference between the `wayback` python library and the `wayback` CLI.
+
+[edgi-govdata-archiving/wayback](https://github.com/edgi-govdata-archiving/wayback) is a python library for Internet Archive's Wayback CDX API, used here in the `wb_coverage.py` script.
+
+[wabarc/wayback](https://github.com/webarc/wayback) is a command-line utility for submitting to multiple archives at once, mentioned in [the docs readme](../docs/readme.md).
