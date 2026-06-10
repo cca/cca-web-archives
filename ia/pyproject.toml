@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "click==8.4.1",
-    "internetarchive>=5.8.0",
+    "internetarchive==5.9.0",
     "pydantic==2.13.4",
     "python-dotenv>=1.2.2",
     "rich>=14.3.3",
@@ -19,7 +19,7 @@ wb_coverage = "ia.wb_coverage:cli"
 [dependency-groups]
 dev = [
     "pytest>=9.0.2",
-    "ruff==0.15.14",
+    "ruff==0.15.16",
 ]
 
 [tool.setuptools.packages.find]
