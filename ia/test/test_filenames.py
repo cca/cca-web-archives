@@ -14,5 +14,5 @@ from ia.wb_coverage import sanitize_filename
         ("A" * 300, "a" * 250),  # Test truncation to 250 chars
     ],
 )
-def test_sanitize_filename(input, expected):
-    assert sanitize_filename(input) == expected
+def test_sanitize_filename(filename, expected):
+    assert sanitize_filename(filename) == expected

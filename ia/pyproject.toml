@@ -24,3 +24,7 @@ dev = [
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.ruff.lint]
+select = ["A", "E", "F", "I", "N", "Q", "S", "SIM", "T", "W"]
+ignore = ["E501", "S101", "T201"]
