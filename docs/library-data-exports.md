@@ -56,11 +56,11 @@ Another alternative would be to inspect the data using Python's [pandas](https:/
 
 We should probably just concatenate and zip the two CSVs together for archival purposes.
 
-#### Usage Statistics (TODO)
+#### 360 Core Usage Statistics
 
 [Usage statistics](https://intota.hosted.exlibrisgroup.com/Home/Reports)
 
-Do we want these? They seem low value and we already have COUNTER reports.
+These are low value as 360 Core was only one aspect of our usage since Summon and we already have COUNTER reports. Eric did a full export of all non-sensitive reports on June 12, 2026 running from 2006 when we acquired Serials Solutions to May, 2026. We probably do not need to revisit this data.
 
 ### Statistics Presentations
 
