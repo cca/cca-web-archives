@@ -1,6 +1,6 @@
 # Library Data
 
-Various places we have data we can upload to the Internet Archive.
+Various places we have data we can upload to the Internet Archive. We are storing them in the Libraries shared drive > [Library Data Exports (2026)](https://drive.google.com/drive/folders/1PBFgwWDVelesm2kSvF3qnWjGjX9nZtzp) folder under our Archives until we have a more stable home. We are planning to upload them to the Internet Archive.
 
 ## Considerations
 
@@ -35,7 +35,9 @@ Many JSON and TSV files. COUNTER files are abstract enough that they do not pres
 
 Serials Solution > [Management Reports](https://clientcenter.serialssolutions.com/CC/Reports/QueuedReports.aspx?LibraryCode=CC9) > Database Details Report > Request Report. This is the report of all our subscribed databases, including OA ones.
 
-#### Complete Tracked Resources
+#### ✅ Complete Tracked Resources
+
+Eric downloaded these on June 12, 2026. Below is details on analyzing the data, but the export is finished.
 
 In the same place, select the **Tracked Resources** report. This is every title included in our Summon index, which is a very large list of some 650,000 titles (ebooks, journals, and videos). It is too large to import into Google Sheets, though you can use a connected BigQuery project. I created a `tracked-resources-bigquery` project in Google Cloud for this purpose. Appending data into the existing dataset's table in the project looks like this:
 
@@ -56,12 +58,12 @@ Another alternative would be to inspect the data using Python's [pandas](https:/
 
 We should probably just concatenate and zip the two CSVs together for archival purposes.
 
-#### 360 Core Usage Statistics
+#### ✅ 360 Core Usage Statistics
 
 [Usage statistics](https://intota.hosted.exlibrisgroup.com/Home/Reports)
 
 These are low value as 360 Core was only one aspect of our usage since Summon and we already have COUNTER reports. Eric did a full export of all non-sensitive reports on June 12, 2026 running from 2006 when we acquired Serials Solutions to May, 2026. We probably do not need to revisit this data.
 
-### Statistics Presentations
+### ✅ Statistics Presentations
 
-Download from [Library Data page](https://libraries.cca.edu/about-us/about-us/library-data/) in a couple of formats, e.g. PDF and PPTX.
+Download from [Library Data page](https://libraries.cca.edu/about-us/about-us/library-data/) in a couple of formats, e.g. PDF and PPTX. Eric saved these on June 12, 2026.
