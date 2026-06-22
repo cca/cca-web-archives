@@ -12,6 +12,7 @@ ORG="cca"
 if ! git status &>/dev/null; then
   echo "📁 Initializing new git repository..."
   git init
+  echo "Do not process site with Jekyll" > .nojekyll
   git add .
   git commit -m "Initial commit"
 fi
