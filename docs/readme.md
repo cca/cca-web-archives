@@ -89,7 +89,7 @@ We can use [their Google Sheets service](https://archive.org/services/wayback-gs
 
 ## Archiving a Site with `wayback`
 
-`wayback` is not made by the Internet Archive and its primary utility is submitting to _multiple web archives at once_. The archive-specific flags for `wayback` like `--ia` still submit to _all_ five services the tool uses. To skip some, create a wayback.conf file like the one below. I couldn't figure out how to disable Ghost Archive.
+`wayback` is not made by the Internet Archive and its primary utility is submitting to _multiple web archives at once_. The archive-specific flags for `wayback` like `--ia` still submit to _all_ five services the tool uses. **Update**: this should be fixed in version 0.21.1. To skip some archives, you can also create a wayback.conf file like the one below. I couldn't figure out how to disable Ghost Archive.
 
 ```env
 WAYBACK_ENABLE_IS=false
