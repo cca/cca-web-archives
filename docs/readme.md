@@ -4,7 +4,7 @@ How to create web archives of CCA sites. Different tools are suitable for partic
 
 - `wget` script for small (<100 MB) static sites without much media, e.g. grad thesis site
 - Webrecorder for small dynamic sites, e.g. Build Lab
-- Submit URLs to IA for our largest static sites, e.g. Comics
+- Submit URLs to IA for our largest sites, e.g. Comics, Portal
 
 The biggest outstanding question is archiving sites that are both large and dynamic, such as Portal. Webrecorder takes time and IA may not be a faithful reproduction. I am considering using Webrecorder's Browsertrix locally with custom behaviors. Some sites are hard to crawl because their index is dynamic but their content is static, e.g. Portal's courses and policies, and for those we may be able to compile a list of URLs (e.g. from analytics) to feed to `wget`.
 
@@ -51,18 +51,6 @@ git add .gitattributes
 # if you already have a commit with an existing large file in it, migrate it to LFS like so:
 git lfs migrate import --include="*.wacz" --everything
 ```
-
-## Mirroring a Site on GCP
-
-**TBD** do a complete trial run with this method and fill out the steps below
-
-Eric created a `digital-archiving` GCP project to be the parent for all archives storage buckets.
-
-1. Use the `wget` command to mirror the site
-1. Create a storage bucket underneath the project
-1. `gcloud storage cp --recursive example.cca.edu gs://my-bucket/example.cca.edu`
-1. Make the storage bucket public
-1. Add the URL to the CCA Web Archives
 
 ## Webrecorder
 
