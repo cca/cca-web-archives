@@ -32,6 +32,13 @@ header {
   text-align: center;
 }
 
+header .container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 header h1 {
   margin: 0;
   font-size: 2.5rem;
@@ -44,9 +51,64 @@ header p {
   margin-top: 1rem;
 }
 
+.header-nav-link {
+  position: absolute;
+  top: 0.75rem;
+  right: 2rem;
+  width: 6.2rem;
+  height: 2.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  font-weight: 600;
+  line-height: 1;
+  color: #4a4a4a;
+  background: #f2f2f2;
+  border: 1px solid #dfdfdf;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
+}
+
+.header-nav-link:hover,
+.header-nav-link:focus-visible {
+  color: #cf1f1f;
+  border-color: #d0b0b0;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.13);
+}
+
+.header-nav-link:focus-visible {
+  outline: 2px solid #cf1f1f;
+  outline-offset: 2px;
+}
+
 footer {
   border-top: 1px solid #eee;
   padding: 4rem 0;
   text-align: center;
   color: #888;
+}
+
+@media (max-width: 700px) {
+  header {
+    padding-top: 2.25rem;
+  }
+
+  .header-nav-link {
+    position: static;
+    align-self: flex-end;
+    margin: 0 0 1rem;
+    width: 5.2rem;
+    height: 2.35rem;
+    font-size: 0.82rem;
+  }
 }

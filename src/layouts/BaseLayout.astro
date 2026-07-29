@@ -5,9 +5,12 @@ interface Props {
   title: string
   heading: string
   subheading?: string
+  navHref?: string
+  navLabel?: string
+  navAriaLabel?: string
 }
 
-const { title, heading, subheading } = Astro.props
+const { title, heading, subheading, navHref, navLabel, navAriaLabel } = Astro.props
 ---
 
 <html lang="en">
@@ -23,6 +26,13 @@ const { title, heading, subheading } = Astro.props
   <body>
     <header>
       <div class="container">
+        {
+          navHref && navLabel && (
+            <a class="header-nav-link" href={navHref} aria-label={navAriaLabel || navLabel}>
+              {navLabel}
+            </a>
+          )
+        }
         <h1>{heading}</h1>
         {subheading && <p>{subheading}</p>}
       </div>
