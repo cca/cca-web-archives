@@ -1,0 +1,184 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout
+  title="About | CCA Web Archive Gallery"
+  heading="About the CCA Web Archive"
+>
+  <article class="about-page">
+    <p class="lede">
+      This site collects archives of institutional websites from California
+      College of the Arts. It is a memorial to the college's web presence, most
+      of which will be taken offline when the college closes in June, 2027.
+    </p>
+
+    <h2>How to use the Web Archive</h2>
+    <p>
+      You can search through the archived sites by title, domain, and
+      description. The search does not cover <em>site content</em>. You can also
+      filter sites by how they were archived. Sites were archived using three
+      different means:
+    </p>
+
+    <ul>
+      <li>
+        <strong>Static <abbr title="Hypertext Markup Language">HTML</abbr></strong> - The site was mirrored to static HTML files.
+      </li>
+      <li>
+        <strong>Internet Archive</strong> - The site was archived by the Internet
+        Archive and is available for playback in the <a
+          href="https://web.archive.org/">Wayback Machine</a
+        >.
+      </li>
+      <li>
+        <strong>Webrecorder</strong> - The site was archived using WebRecorder for dynamic playback.
+      </li>
+    </ul>
+
+    <p>
+      Static sites can be navigated <em>internally</em> as though they were
+      online. Links to external sites may break. Note that links <em
+        >between archived sites</em
+      > won't work either but you can check this archive to see if we have a copy
+      of the site being linked to.
+    </p>
+
+    <p>
+      The Internet Archive, on the other hand, can mostly be navigated as if a
+      site was live. You can follow internal and external links, which will work if an archived copy exists. Note that some
+      media may be missing or unplayable. If you land on a media asset via
+      navigation which the Internet Archive claims isn't available, you can
+      sometimes access it by feeding its URL back into the Wayback Machine as a
+      starting point.
+    </p>
+
+    <p>
+      Embedded media on some of the Static HTML sites will only work as long as
+      the externally hosted resources are online. For instance, videos hosted on
+      CCA's Panopto platform will cease functioning when CCA closes and Panopto
+      is shut down. Some sites (e.g. "Make. Act. Resist.") already have broken
+      embeds to videos that were deaccessioned.
+    </p>
+
+    <h2>Team</h2>
+    <ul class="team-list">
+      <li>
+        Eric Phetteplace, Systems Librarian. Site design, web archiving, project
+        management.
+      </li>
+      <li>Mark Goh, Site Reliability Engineer. Inventory of CCA websites.</li>
+      <li>
+        Nancy Chan, Instructional Technologist. Quality assurance and web
+        archiving.
+      </li>
+      <li>Joel Lithgow, Web Developer. Site design and digital archiving.</li>
+      <li>Tanza Solis, Web Developer. Site design and web archiving.</li>
+    </ul>
+
+    <h2>Technical Details</h2>
+    <p>
+      The <a href="https://github.com/cca/cca-web-archives"
+        >cca/cca-web-archives</a
+      > repository on GitHub contains some notes and scripts in <a
+        href="https://github.com/cca/cca-web-archives/tree/main/docs"
+        >the docs folder</a
+      > which were used in this project. We compiled a list of existing CCA sites
+      from a server inventory spreadsheet and <abbr title="Domain Name System">DNS</abbr> records.
+      Our inventory undoubtedly missed some sites, especially official ones run by
+      academic programs or student organizations but not using CCA infrastructure.
+    </p>
+
+    <p>
+      Most of the Static HTML sites were mirrored to HTML files using <code
+        >wget</code
+      >
+      then hosted on GitHub Pages. This approach was appropriate for smaller sites
+      which do not rely on <abbr title="Application Programming Interface">API</abbr>s or other dynamic content, such as "<a
+        href="https://cca.github.io/makeactresist.cca.edu/index.html"
+        >Make. Act. Resist.</a
+      >" and <a href="https://cca.github.io/visualnarratives.cca.edu/index.html"
+        >Visual Narratives (Spring 2021)</a
+      >. Some of the modern sites like the <a
+        href="https://cca.github.io/cca-2026-celebration-site/"
+        >2026 Commencement Celebration</a
+      > and <a href="https://cca.github.io/after-intelligence-cca-edu/"
+        >After Intelligence</a
+      > already had their code hosted on GitHub and were able to be deployed to GitHub
+      Pages using a custom workflow. These were designed by Joel Lithgow for Marketing
+      & Communications and use the <a href="https://astro.build/">Astro</a> framework.
+    </p>
+
+    <p>
+      Many CCA websites, especially our more popular ones, already had coverage
+      in in <a href="https://archive.org/">the Internet Archive</a>. We used the <a
+        href="https://github.com/edgi-govdata-archiving/wayback">wayback</a
+      > python library and code contained in the "<a
+        href="https://github.com/cca/cca-web-archives/tree/main/ia">ia</a
+      >" folder of the cca-web-archives project to programmatically investigate
+      the coverage of larger CCA sites. Complete sets of URLS from some web
+      properties, such as <a
+        href="https://web.archive.org/web/20260223175036/https://libraries.cca.edu/"
+        >the CCA Libraries</a
+      > and the <a
+        href="https://web.archive.org/web/20260722190046/https://www.cca.edu/exhibitions/rewind-review-respond/"
+        >Rewind Review Respond</a
+      > publication, were submitted to the Internet Archive using their <a
+        href="https://archive.org/services/wayback-gsheets/"
+        >Save Page Now for Google Sheets</a
+      > service. CCA also reached out to the Internet Archive for assistance with
+      archiving our entire web presence. The <a
+        href="https://carta.archive-it.org/about/"
+        >Collaborative ART Archive (CARTA)</a
+      > graciously agreed to archive our sites. The representation of CCA websites
+      as they existed in 2026 should be fairly complete in the Internet Archive.
+    </p>
+
+    <p>
+      <a href="https://webrecorder.net/">WebRecorder</a> was used for smaller dynamic
+      sites that we could manually navigate through in a reasonable amount of time
+      but were unable to be captured successfully with <code>wget</code>, such as <a
+        href="https://cca.github.io/build.cca.edu/">BuildLab</a
+      >. We used the WebRecorder Chrome Extension to create the archive and
+      hosted <a
+        href="https://github.com/cca/build.cca.edu/blob/main/build.cca.edu.wacz"
+      >
+        the WACZ file
+      </a> used for playback on GitHub using <a href="https://git-lfs.com/"
+        >Git LFS</a
+      >.
+    </p>
+  </article>
+
+  <style>
+    .about-page {
+      max-width: 760px;
+      margin: 3rem auto 4rem;
+    }
+
+    .about-page .lede {
+      font-size: 1.2rem;
+      color: #555;
+      margin-top: 0;
+    }
+
+    .about-page h2 {
+      margin-top: 2.5rem;
+    }
+
+    .about-page p,
+    .about-page li {
+      line-height: 1.7;
+    }
+
+    .team-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .team-list li {
+      margin: 0.4rem 0;
+    }
+  </style>
+</BaseLayout>
