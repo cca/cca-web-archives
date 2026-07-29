@@ -35,7 +35,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
         >.
       </li>
       <li>
-        <strong>Webrecorder</strong> - The site was archived using WebRecorder for dynamic playback.
+        <strong>Webrecorder</strong> - The site was archived using Webrecorder for dynamic playback.
       </li>
     </ul>
 
@@ -49,10 +49,11 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 
     <p>
       The Internet Archive, on the other hand, can mostly be navigated as if a
-      site was live. You can follow internal and external links, which will work if an archived copy exists. Note that some
-      media may be missing or unplayable. If you land on a media asset via
-      navigation which the Internet Archive claims isn't available, you can
-      sometimes access it by feeding its URL back into the Wayback Machine as a
+      site was live. You can follow internal and external links, which will work if an
+      archived copy exists. Note that some media may be missing or unplayable.
+      If you land on a media asset via navigation which the Internet Archive claims isn't available, you can
+      sometimes access it by feeding its <abbr title="Uniform Resource Locator">URL</abbr> back
+      into the Wayback Machine as a
       starting point.
     </p>
 
@@ -75,8 +76,8 @@ import BaseLayout from '../layouts/BaseLayout.astro'
         Nancy Chan, Instructional Technologist. Quality assurance and web
         archiving.
       </li>
-      <li>Joel Lithgow, Web Developer. Site design and digital archiving.</li>
       <li>Tanza Solis, Web Developer. Site design and web archiving.</li>
+      <li>Joel Lithgow, Web Developer. Site design and digital archiving.</li>
     </ul>
 
     <h2>Technical Details</h2>
@@ -93,10 +94,9 @@ import BaseLayout from '../layouts/BaseLayout.astro'
     </p>
 
     <p>
-      Most of the Static HTML sites were mirrored to HTML files using <code
-        >wget</code
-      >
-      then hosted on GitHub Pages. This approach was appropriate for smaller sites
+      Most of the Static HTML sites were mirrored to HTML files
+      using <code>wget</code> then hosted on GitHub Pages.
+      This approach was appropriate for smaller sites
       which do not rely on <abbr title="Application Programming Interface">API</abbr>s or other dynamic content, such as "<a
         href="https://cca.github.io/makeactresist.cca.edu/index.html"
         >Make. Act. Resist.</a
@@ -119,7 +119,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
       > python library and code contained in the "<a
         href="https://github.com/cca/cca-web-archives/tree/main/ia">ia</a
       >" folder of the cca-web-archives project to programmatically investigate
-      the coverage of larger CCA sites. Complete sets of URLS from some web
+      the coverage of larger CCA sites. Complete sets of URLs from some web
       properties, such as <a
         href="https://web.archive.org/web/20260223175036/https://libraries.cca.edu/"
         >the CCA Libraries</a
@@ -138,11 +138,11 @@ import BaseLayout from '../layouts/BaseLayout.astro'
     </p>
 
     <p>
-      <a href="https://webrecorder.net/">WebRecorder</a> was used for smaller dynamic
+      <a href="https://webrecorder.net/">Webrecorder</a> was used for smaller dynamic
       sites that we could manually navigate through in a reasonable amount of time
       but were unable to be captured successfully with <code>wget</code>, such as <a
         href="https://cca.github.io/build.cca.edu/">BuildLab</a
-      >. We used the WebRecorder Chrome Extension to create the archive and
+      >. We used the Webrecorder Chrome Extension to create the archive and
       hosted <a
         href="https://github.com/cca/build.cca.edu/blob/main/build.cca.edu.wacz"
       >
