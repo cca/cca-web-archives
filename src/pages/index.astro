@@ -4,7 +4,7 @@ import ArchiveCard from '../components/ArchiveCard.astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
 
 const archives = await getCollection('archives')
-const formats = [...new Set(archives.map((a) => a.data.archiveFormat))]
+const formats = [...new Set(archives.map((a) => a.data.archiveFormat).sort())]
 ---
 
 <BaseLayout
