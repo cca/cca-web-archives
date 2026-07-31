@@ -45,6 +45,9 @@ const formattedDate = dateArchived.toLocaleDateString('en-US', {
           src={thumbnailUrl}
           alt={thumbnailAltText || ''}
           class="thumbnail"
+          loading="lazy"
+          width="400"
+          height="200"
         />
       ) : (
         <div class="thumbnail placeholder">No Preview</div>
