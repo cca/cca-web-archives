@@ -38,7 +38,7 @@ const formattedDate = dateArchived.toLocaleDateString('en-US', {
   data-description={description.toLowerCase()}
   data-date={dateArchived.toISOString()}
 >
-  <a href={fullUrl} class="thumbnail-link">
+  <a href={fullUrl} class="thumbnail-link" aria-label={`View ${title}`}>
     {
       thumbnailUrl ? (
         <img
@@ -52,7 +52,7 @@ const formattedDate = dateArchived.toLocaleDateString('en-US', {
     }
   </a>
   <div class="content">
-    <a href={fullUrl} class="title-link">
+    <a href={fullUrl} class="title-link" aria-label={`View ${title}`}>
       <h3>{title}</h3>
     </a>
     <p class="domain"><code>{domain}</code></p>
