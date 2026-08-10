@@ -2,6 +2,30 @@
 
 Various places we have data we can upload to the Internet Archive. We are storing them in the Libraries shared drive > [Library Data Exports (2026)](https://drive.google.com/drive/folders/1PBFgwWDVelesm2kSvF3qnWjGjX9nZtzp) folder under our Archives until we have a more stable home. We are planning to upload them to the Internet Archive.
 
+## Uploading to Archive.org
+
+To upload to IA while preserving a folder structure:
+
+```sh
+uv tool install internetarchive
+ia configure # authenticate, credentials in Dashlane
+find . -type f -name .DS_Store -delete # delete .DS_Store files first
+# test_collection upload — purged after 30 days
+ia up ITEM_NAME "Data/" --metadata="collection:test_collection" \
+    --no-derive --retries 5 --verify
+ia up ITEM_NAME "Data/" --metadata="collection:californiacollegeofthearts" \
+    --no-derive --retries 5 --verify
+```
+
+I recommend "cca-library-data-2026-06" for a name format; replace with the appropriate year-month if updated later.
+
+You can run ia upload multiple times to add to an existing item and can also use ia md to modify an item's metadata.
+
+Internet Archive Developer Portal References:
+
+- [Command-Line Interface](https://archive.org/developers/internetarchive/cli.html#upload)
+- [Internet Archive Items | Collections](https://archive.org/developers/items.html#collections)
+
 ## Considerations
 
 - Privacy: nothing with PII or enough data to de-anonymize
