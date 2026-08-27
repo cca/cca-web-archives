@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 # USAGE: ./wgetmirror <domain>
+# _We have permission_ to mirror all these CCA-affiliated sites thus the
+# UA and robots ignore flags, normally this would not be kosher.
 DOMAIN=$1
 LOGFILE="$DOMAIN.log"
-wget --mirror --no-check-certificate --convert-links --adjust-extension --page-requisites --no-parent --output-file=$LOGFILE --domains=$DOMAIN https://$DOMAIN
+UA_STRING="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+wget --mirror --no-check-certificate --convert-links --adjust-extension \
+    --page-requisites --no-parent --wait=1 --random-wait \
+    --execute robots=off --user-agent="$UA_STRING" \
+    --output-file=$LOGFILE --domains=$DOMAIN https://$DOMAIN
 mv $LOGFILE $DOMAIN/
 cat <<EOF > $DOMAIN/readme.md
 # $DOMAIN
