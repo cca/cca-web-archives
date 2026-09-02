@@ -12,7 +12,7 @@ export default [
   ...tseslint.configs.recommended,
   ...eslintPluginAstro.configs.recommended,
   {
-    files: ['domainstub.js'],
+    files: ['scripts/**/*.js', 'scripts/**/*.ts'],
     languageOptions: {
       globals: {
         ...globals.node,

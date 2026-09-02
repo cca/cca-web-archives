@@ -35,7 +35,17 @@ This approach is suitable to small sites without a lot of media, since GitHub ha
 1. GH Repo > Settings > Pages > Source: deploy from a branch & Branch: main "/ (root)"
 1. Once the site deploys & you can confirm it works, add the URL to the [CCA Web Archives](https://github.com/cca/cca-web-archives/) site
 
-Once a site has been mirrored to Github, `node domainstub.js` (in project root) creates a stub JSON file with the domain for the CCA Web Archives Gallery.
+Once a site has been mirrored to Github, `node scripts/domainstub.js` (in project root) creates a stub JSON file with the domain for the CCA Web Archives Gallery.
+
+## Squarespace CDN Images
+
+A basic attempt at downloading images from the Squarespace CDN and rewriting their `src` attributes is available in the "scripts" directory. It is a WIP.
+
+```sh
+npm run sscompile # compile the TypeScript to JS
+node scripts/squarespace.js path/to/mirrored.site
+# script prints number of html files modified and number of images downloaded
+```
 
 ### GitHub 100mb File Size Limit
 

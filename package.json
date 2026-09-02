@@ -13,15 +13,18 @@
     "check": "astro check",
     "lint": "eslint --cache .",
     "format": "prettier --write .",
-    "test": "npm run check && npm run lint"
+    "test": "npm run check && npm run lint",
+    "sscompile": "tsc --ignoreConfig scripts/squarespace.ts --outDir scripts"
   },
   "dependencies": {
     "chalk": "^6.0.0",
+    "cheerio": "^1.2.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@eslint/js": "^10.0.1",
+    "@types/node": "^26.3.0",
     "@typescript-eslint/eslint-plugin": "^8.66.0",
     "@typescript-eslint/parser": "^8.66.0",
     "astro": "^7.1.6",
