@@ -23,11 +23,11 @@ wayback https://gradthesis2007.cca.edu # only does one page, submits to several 
 wayback urls.txt # archive all URLs in a file, see note below about skipping some digital archives
 ```
 
-Try [the `wgetmirror` script](./wgetmirror) which accepts a domain and runs the wget command above, saving output to a log file.
+Try [the `wgetmirror` script](../scripts/wgetmirror) which accepts a domain and runs the wget command above, saving output to a log file.
 
 ## Mirroring a Site on GitHub Pages
 
-This approach is suitable to small sites without a lot of media, since GitHub has a 100 MB limit on repository size. We can host the site for free, even once the CCA GitHub org is no longer a paid account, and it can be easily forked to other accounts. The [push-to-gh-pages.sh](./push-to-gh-pages.sh) script automates these steps.
+This approach is suitable to small sites without a lot of media, since GitHub has a 100 MB limit on repository size. We can host the site for free, even once the CCA GitHub org is no longer a paid account, and it can be easily forked to other accounts. The [push-to-gh-pages.sh](../scripts/push-to-gh-pages.sh) script automates these steps.
 
 1. Use the `wget` command to mirror the site
 1. (Optional) Add a readme describing the site & archiving method

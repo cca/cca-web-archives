@@ -2,20 +2,15 @@
 
 An Astro-based filterable gallery for archived institutional websites.
 
-## 🚀 Project Structure
+## Structure
 
-Inside of your Astro project, you'll see the following folders and files:
+`ia` has Internet Archive utilities for checking IA coverage of a site.
 
-```text
-/
-├── public/          # Static assets (site thumbnails)
-├── src/
-│   ├── components/  # Astro components (ArchiveCard.astro)
-│   ├── content/     # Archived website data (JSON files)
-│   ├── pages/       # Website routes (index.astro)
-│   └── content.config.ts # Data schema and collection setup
-├── .github/workflows/   # CI/CD deployment to GitHub Pages
-```
+`rrr` was code for downloading _Rewind Review Respond_ journal issues from the main site.
+
+Astro files: public contains thumbnail images, src is code, src/content is individual archived site JSON files.
+
+`scripts` are miscellaneous utilities for working with web archives.
 
 ## 🧞 Commands
 
@@ -31,9 +26,3 @@ All commands are run from the root of the project, from a terminal:
 | `pnpm lint`    | Run ESLint to check code quality             |
 | `pnpm format`  | Format codebase with Prettier                |
 | `pnpm test`    | Run all CI checks (check + lint)             |
-
-## 🛠️ CI/CD & Maintenance
-
-- **Deployment:** The site is automatically deployed to GitHub Pages on every push to the `main` branch via GitHub Actions using **pnpm**.
-- **Updates:** Dependabot is configured to check for **pnpm** updates weekly.
-- **Linting:** ESLint (Flat Config) and Prettier are integrated to maintain code standards.
