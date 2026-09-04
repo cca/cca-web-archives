@@ -1,7 +1,9 @@
 # build output
 dist/
 *.egg-info/
+# compiled typescript files
 scripts/squarespace.js
+scripts/fix-links.js
 # generated types
 .astro/
 # eslint

@@ -14,7 +14,8 @@
     "lint": "eslint --cache .",
     "format": "prettier --write .",
     "test": "npm run check && npm run lint",
-    "sscompile": "tsc --ignoreConfig scripts/squarespace.ts --outDir scripts"
+    "sscompile": "tsc --ignoreConfig scripts/squarespace.ts --outDir scripts",
+    "flcompile": "tsc --ignoreConfig scripts/fix-links.ts --outDir scripts"
   },
   "dependencies": {
     "chalk": "^6.0.0",
