@@ -144,7 +144,7 @@ function checkImagePathPrefix(src: string): void {
   }
 }
 
-const imageAttributes: string[] = ['src', 'data-src', 'data-image', 'srcset', 'data-srcset', 'href']
+const imageAttributes: string[] = ['src', 'data-src', 'data-image', 'srcset', 'data-srcset', 'href', 'data-asset-url']
 
 // Squarespace hides images until its loader adds .loaded and hides blocks with
 // data-animation-role until its animation observer runs, so force both visible
@@ -152,8 +152,15 @@ const visibilityFix: string = 'img,[data-animation-role]{opacity:1!important;vis
 
 function cdnUrl(value: string | undefined): URL | undefined {
   if (!value) return undefined
+  // only absolute (https://images.squarespace-cdn.com/...) or protocol-relative
+  // (//images.squarespace-cdn.com/...) URLs point at the CDN; a bare base like
+  // `https://${cdnHost}` would otherwise resolve *any* relative path (e.g. a
+  // same-page <a href="/index.html">) against that host, falsely matching it
+  if (!/^(?:[a-z][a-z0-9+.-]*:)?\/\//i.test(value)) return undefined
   try {
-    const url = new URL(value, `https://${cdnHost}`)
+    // base only matters for protocol-relative "//host/path" values; absolute
+    // URLs (the only other thing the regex above allows) ignore it entirely
+    const url = new URL(value, 'https://invalid.invalid')
     return url.hostname === cdnHost ? url : undefined
   } catch {
     return undefined
@@ -176,8 +183,9 @@ async function processHtmlFile(file: Dirent<string>): Promise<void> {
   const htmlContent: string = await readFile(filePath, 'utf-8')
   // scriptingEnabled: false parses <noscript> fallbacks as elements instead of text
   const $ = cheerio.load(htmlContent, { scriptingEnabled: false })
-  // anchors are gallery lightbox links to the full size original
-  const images = $('img, source, a')
+  // anchors are gallery lightbox links to the full size original; link[rel=icon]
+  // is the favicon; span[data-asset-url] is Squarespace's hidden social-share widget
+  const images = $('img, source, a, link[rel="icon"], span[data-asset-url]')
     .toArray()
     .map(element => ({ element, url: firstCdnUrl(imageAttributes.map(attr => $(element).attr(attr))) }))
     .filter((entry): entry is { element: typeof entry.element; url: URL } => Boolean(entry.url))
@@ -196,7 +204,7 @@ async function processHtmlFile(file: Dirent<string>): Promise<void> {
     })
   )
 
-  const targetAttribute: Record<string, string> = { a: 'href', source: 'srcset', img: 'src' }
+  const targetAttribute: Record<string, string> = { a: 'href', source: 'srcset', img: 'src', link: 'href', span: 'data-asset-url' }
   let modified: boolean = false
   for (const { element, href, ok } of rewrites) {
     if (!ok) continue
