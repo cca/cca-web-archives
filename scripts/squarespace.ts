@@ -224,6 +224,24 @@ async function processHtmlFile(file: Dirent<string>): Promise<void> {
         .removeAttr('srcset')
         .addClass('loaded')
         .data('loaded', true)
+      // Squarespace's gallery/summary thumbnails (.thumb-image, .eventlist-thumbnail)
+      // sit in a height:0 padding-bottom box and rely entirely on the image loader
+      // JS to inline position/object-fit styles once loaded; that JS never runs
+      // for us since we mark images pre-loaded, so bake in the same styles it
+      // would have set, otherwise the browser shows the image at native size
+      // clipped to its top-left corner
+      const focalPoint = $(element).attr('data-image-focal-point')
+      if (focalPoint && !$(element).attr('style')) {
+        const [fx, fy] = focalPoint.split(',').map(n => `${Number(n) * 100}%`)
+        $(element).attr('style', `position:absolute;top:0;left:0;display:block;object-fit:cover;object-position:${fx} ${fy};width:100%;height:100%`)
+        // the absolutely positioned img fills its nearest positioned ancestor, but
+        // that's normally the wrapper that also contains a caption/title sibling
+        // (e.g. .image-slide-title), so make the immediate parent (Squarespace's
+        // own JS sets this same "overflow: hidden" on it at runtime) the
+        // positioning context and clip box, confining the image to just its box
+        const parent = $(element).parent()
+        if (parent.is('a') && !parent.attr('style')) parent.attr('style', 'position:relative;overflow:hidden')
+      }
     }
     modified = true
   }
