@@ -36,11 +36,18 @@ function summarize(): void {
   console.log(`Modified ${numHtmlFilesModified} HTML files.`)
 }
 
-async function pool<T>(items: T[], limit: number, worker: (item: T) => Promise<void>): Promise<void> {
+async function pool<T>(
+  items: T[],
+  limit: number,
+  worker: (item: T) => Promise<void>,
+): Promise<void> {
   let next: number = 0
-  const runners: Promise<void>[] = Array.from({ length: Math.min(limit, items.length) }, async () => {
-    while (next < items.length) await worker(items[next++])
-  })
+  const runners: Promise<void>[] = Array.from(
+    { length: Math.min(limit, items.length) },
+    async () => {
+      while (next < items.length) await worker(items[next++])
+    },
+  )
   await Promise.all(runners)
 }
 
@@ -49,7 +56,10 @@ function isHtmlFile(file: Dirent<string>): boolean {
 }
 
 async function fileExists(filePath: string): Promise<boolean> {
-  return access(filePath).then(() => true, () => false)
+  return access(filePath).then(
+    () => true,
+    () => false,
+  )
 }
 
 // only rewrite same-site links to a page, not anchors, external URLs, or files that
@@ -63,12 +73,17 @@ function isFixableHref(href: string | undefined): href is string {
   return !path.extname(withoutQuery)
 }
 
-async function processHtmlFile(file: Dirent<string>, dirRoot: string): Promise<void> {
+async function processHtmlFile(
+  file: Dirent<string>,
+  dirRoot: string,
+): Promise<void> {
   const filePath: string = path.join(file.parentPath, file.name)
   const htmlContent: string = await readFile(filePath, 'utf-8')
   const $ = cheerio.load(htmlContent, { scriptingEnabled: false })
 
-  const anchors = $('a[href]').toArray().filter(element => isFixableHref($(element).attr('href')))
+  const anchors = $('a[href]')
+    .toArray()
+    .filter(element => isFixableHref($(element).attr('href')))
   if (!anchors.length) return
 
   const rewrites = await Promise.all(
@@ -77,9 +92,11 @@ async function processHtmlFile(file: Dirent<string>, dirRoot: string): Promise<v
       const withoutQuery: string = href.split(/[?#]/)[0]
       const suffix: string = href.slice(withoutQuery.length)
       const destination: string = path.join(dirRoot, `${withoutQuery}.html`)
-      const fixable: boolean = (await fileExists(destination)) && !(await fileExists(path.join(dirRoot, withoutQuery)))
+      const fixable: boolean =
+        (await fileExists(destination)) &&
+        !(await fileExists(path.join(dirRoot, withoutQuery)))
       return { element, newHref: `${withoutQuery}.html${suffix}`, fixable }
-    })
+    }),
   )
 
   let modified: boolean = false
@@ -101,7 +118,10 @@ async function processHtmlFile(file: Dirent<string>, dirRoot: string): Promise<v
   numHtmlFilesModified++
 }
 
-const entries: Dirent<string>[] = await readdir(root, { withFileTypes: true, recursive: true })
+const entries: Dirent<string>[] = await readdir(root, {
+  withFileTypes: true,
+  recursive: true,
+})
 const htmlFiles: Dirent<string>[] = entries.filter(isHtmlFile)
 numHtmlFiles = htmlFiles.length
 

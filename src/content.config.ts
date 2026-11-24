@@ -8,7 +8,7 @@ const archives = defineCollection({
     title: z.string(),
     domain: z.string(),
     fullUrl: z.url(),
-    dateArchived: z.string().transform((str) => new Date(str)),
+    dateArchived: z.string().transform(str => new Date(str)),
     archiveFormat: z.enum([
       'Static HTML',
       'WARC',

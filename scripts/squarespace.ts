@@ -47,11 +47,18 @@ function summarize(): void {
 }
 
 // run worker over items with at most `limit` in flight, resolves when all are done
-async function pool<T>(items: T[], limit: number, worker: (item: T) => Promise<void>): Promise<void> {
+async function pool<T>(
+  items: T[],
+  limit: number,
+  worker: (item: T) => Promise<void>,
+): Promise<void> {
   let next: number = 0
-  const runners: Promise<void>[] = Array.from({ length: Math.min(limit, items.length) }, async () => {
-    while (next < items.length) await worker(items[next++])
-  })
+  const runners: Promise<void>[] = Array.from(
+    { length: Math.min(limit, items.length) },
+    async () => {
+      while (next < items.length) await worker(items[next++])
+    },
+  )
   await Promise.all(runners)
 }
 
@@ -87,11 +94,15 @@ const imageSemaphore: Semaphore = new Semaphore(IMAGE_CONCURRENCY)
 // the same image often appears across many pages, only fetch it once
 const downloads = new Map<string, Promise<boolean>>()
 
-debug(`Starting at ${root}, processing ${FILE_CONCURRENCY} files at a time and downloading ${IMAGE_CONCURRENCY} images concurrently.`)
+debug(
+  `Starting at ${root}, processing ${FILE_CONCURRENCY} files at a time and downloading ${IMAGE_CONCURRENCY} images concurrently.`,
+)
 
 // absolute destination for a CDN url, with the /content/v1/<uuid>/ prefix stripped
 function localPath(url: URL): string {
-  const relative = decodeURIComponent(url.pathname).replace(imagePathPrefix, '').replace(/^\/+/, '')
+  const relative = decodeURIComponent(url.pathname)
+    .replace(imagePathPrefix, '')
+    .replace(/^\/+/, '')
   return path.join(root, imageDir, ...relative.split('/'))
 }
 
@@ -101,7 +112,10 @@ function downloadImage(url: URL, destination: string): Promise<boolean> {
   if (existing) return existing
   const download: Promise<boolean> = (async () => {
     // already mirrored by an earlier run, no network request needed
-    const onDisk: boolean = await access(destination).then(() => true, () => false)
+    const onDisk: boolean = await access(destination).then(
+      () => true,
+      () => false,
+    )
     if (onDisk) {
       debug(`Already on disk: ${destination}`)
       return true
@@ -109,7 +123,8 @@ function downloadImage(url: URL, destination: string): Promise<boolean> {
     return imageSemaphore.run(async () => {
       try {
         const response = await fetch(url)
-        if (!response.ok) throw new Error(`Failed to download image: ${response.statusText}`)
+        if (!response.ok)
+          throw new Error(`Failed to download image: ${response.statusText}`)
         const body = Buffer.from(await response.arrayBuffer())
         await mkdir(path.dirname(destination), { recursive: true })
         await writeFile(destination, body)
@@ -137,18 +152,29 @@ function checkImagePathPrefix(src: string): void {
     if (!imagePathUuid) {
       imagePathUuid = uuid
     } else if (imagePathUuid !== uuid) {
-      console.warn(`Warning: Found different UUIDs in image paths: ${imagePathUuid} and ${uuid}`)
+      console.warn(
+        `Warning: Found different UUIDs in image paths: ${imagePathUuid} and ${uuid}`,
+      )
     }
   } else {
     console.warn(`Warning: image src does not match expected pattern: ${src}`)
   }
 }
 
-const imageAttributes: string[] = ['src', 'data-src', 'data-image', 'srcset', 'data-srcset', 'href', 'data-asset-url']
+const imageAttributes: string[] = [
+  'src',
+  'data-src',
+  'data-image',
+  'srcset',
+  'data-srcset',
+  'href',
+  'data-asset-url',
+]
 
 // Squarespace hides images until its loader adds .loaded and hides blocks with
 // data-animation-role until its animation observer runs, so force both visible
-const visibilityFix: string = 'img,[data-animation-role]{opacity:1!important;visibility:visible!important}'
+const visibilityFix: string =
+  'img,[data-animation-role]{opacity:1!important;visibility:visible!important}'
 
 function cdnUrl(value: string | undefined): URL | undefined {
   if (!value) return undefined
@@ -187,8 +213,13 @@ async function processHtmlFile(file: Dirent<string>): Promise<void> {
   // is the favicon; span[data-asset-url] is Squarespace's hidden social-share widget
   const images = $('img, source, a, link[rel="icon"], span[data-asset-url]')
     .toArray()
-    .map(element => ({ element, url: firstCdnUrl(imageAttributes.map(attr => $(element).attr(attr))) }))
-    .filter((entry): entry is { element: typeof entry.element; url: URL } => Boolean(entry.url))
+    .map(element => ({
+      element,
+      url: firstCdnUrl(imageAttributes.map(attr => $(element).attr(attr))),
+    }))
+    .filter((entry): entry is { element: typeof entry.element; url: URL } =>
+      Boolean(entry.url),
+    )
   if (!images.length) return
   numImages += images.length
 
@@ -199,12 +230,21 @@ async function processHtmlFile(file: Dirent<string>): Promise<void> {
       checkImagePathPrefix(url.pathname)
       const destination: string = localPath(url)
       const ok: boolean = await downloadImage(url, destination)
-      const href: string = path.relative(file.parentPath, destination).split(path.sep).join('/')
+      const href: string = path
+        .relative(file.parentPath, destination)
+        .split(path.sep)
+        .join('/')
       return { element, href, ok }
-    })
+    }),
   )
 
-  const targetAttribute: Record<string, string> = { a: 'href', source: 'srcset', img: 'src', link: 'href', span: 'data-asset-url' }
+  const targetAttribute: Record<string, string> = {
+    a: 'href',
+    source: 'srcset',
+    img: 'src',
+    link: 'href',
+    span: 'data-asset-url',
+  }
   let modified: boolean = false
   for (const { element, href, ok } of rewrites) {
     if (!ok) continue
@@ -220,10 +260,7 @@ async function processHtmlFile(file: Dirent<string>): Promise<void> {
       .removeAttr('sizes')
       .removeAttr('elementtiming')
     if (element.tagName === 'img') {
-      $(element)
-        .removeAttr('srcset')
-        .addClass('loaded')
-        .data('loaded', true)
+      $(element).removeAttr('srcset').addClass('loaded').data('loaded', true)
       // Squarespace's gallery/summary thumbnails (.thumb-image, .eventlist-thumbnail)
       // sit in a height:0 padding-bottom box and rely entirely on the image loader
       // JS to inline position/object-fit styles once loaded; that JS never runs
@@ -233,21 +270,28 @@ async function processHtmlFile(file: Dirent<string>): Promise<void> {
       const focalPoint = $(element).attr('data-image-focal-point')
       if (focalPoint && !$(element).attr('style')) {
         const [fx, fy] = focalPoint.split(',').map(n => `${Number(n) * 100}%`)
-        $(element).attr('style', `position:absolute;top:0;left:0;display:block;object-fit:cover;object-position:${fx} ${fy};width:100%;height:100%`)
+        $(element).attr(
+          'style',
+          `position:absolute;top:0;left:0;display:block;object-fit:cover;object-position:${fx} ${fy};width:100%;height:100%`,
+        )
         // the absolutely positioned img fills its nearest positioned ancestor, but
         // that's normally the wrapper that also contains a caption/title sibling
         // (e.g. .image-slide-title), so make the immediate parent (Squarespace's
         // own JS sets this same "overflow: hidden" on it at runtime) the
         // positioning context and clip box, confining the image to just its box
         const parent = $(element).parent()
-        if (parent.is('a') && !parent.attr('style')) parent.attr('style', 'position:relative;overflow:hidden')
+        if (parent.is('a') && !parent.attr('style'))
+          parent.attr('style', 'position:relative;overflow:hidden')
       }
     }
     modified = true
   }
   if (!modified) return
 
-  if (!$('#squarespace-mirror-fix').length) $('head').append(`<style id="squarespace-mirror-fix">${visibilityFix}</style>`)
+  if (!$('#squarespace-mirror-fix').length)
+    $('head').append(
+      `<style id="squarespace-mirror-fix">${visibilityFix}</style>`,
+    )
 
   // don't clobber a backup from an earlier run
   try {
@@ -259,7 +303,10 @@ async function processHtmlFile(file: Dirent<string>): Promise<void> {
   numHtmlFilesModified++
 }
 
-const entries: Dirent<string>[] = await readdir(root, { withFileTypes: true, recursive: true })
+const entries: Dirent<string>[] = await readdir(root, {
+  withFileTypes: true,
+  recursive: true,
+})
 const htmlFiles: Dirent<string>[] = entries.filter(isHtmlFile)
 numHtmlFiles = htmlFiles.length
 

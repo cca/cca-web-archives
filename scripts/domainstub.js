@@ -39,7 +39,7 @@ async function moveScreenshot() {
     const screenshot = files
       .reverse()
       .find(
-        (file) =>
+        file =>
           file.toLowerCase().includes('screenshot') &&
           file.toLowerCase().endsWith('.png'),
       )
@@ -77,14 +77,14 @@ if (!contentDirStats.isDirectory()) {
 
 const jsonPath = path.join(contentDirPath, `${domain}.json`)
 fs.stat(jsonPath)
-  .then((jsonStats) => {
+  .then(jsonStats => {
     if (jsonStats.isFile()) {
       console.error(chalk.yellow(`File already exists at ${jsonPath}`))
       return rl.question('Would you like to overwrite it? (y/n) ')
     }
     return 'y'
   })
-  .then((answer) => {
+  .then(answer => {
     if (answer?.toLowerCase() !== 'y') {
       console.log(chalk.yellow('Aborting. No changes were made.'))
       process.exit(0)

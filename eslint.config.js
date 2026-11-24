@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 export default [
   // Global ignores
   {
-    ignores: ['dist/**', '.astro/**', 'node_modules/**', "rrr/**", "ia/**"],
+    ignores: ['dist/**', '.astro/**', 'node_modules/**', 'rrr/**', 'ia/**'],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,

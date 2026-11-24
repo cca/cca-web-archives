@@ -10,7 +10,8 @@ interface Props {
   navAriaLabel?: string
 }
 
-const { title, heading, subheading, navHref, navLabel, navAriaLabel } = Astro.props
+const { title, heading, subheading, navHref, navLabel, navAriaLabel } =
+  Astro.props
 ---
 
 <html lang="en">
@@ -26,13 +27,15 @@ const { title, heading, subheading, navHref, navLabel, navAriaLabel } = Astro.pr
   <body>
     <header>
       <div class="container">
-        {
-          navHref && navLabel && (
-            <a class="header-nav-link" href={navHref} aria-label={navAriaLabel || navLabel}>
-              {navLabel}
-            </a>
-          )
-        }
+        {navHref && navLabel && (
+          <a
+            class="header-nav-link"
+            href={navHref}
+            aria-label={navAriaLabel || navLabel}
+          >
+            {navLabel}
+          </a>
+        )}
         <h1>{heading}</h1>
         {subheading && <p>{subheading}</p>}
       </div>

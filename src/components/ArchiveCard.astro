@@ -39,34 +39,34 @@ const formattedDate = dateArchived.toLocaleDateString('en-US', {
   data-date={dateArchived.toISOString()}
 >
   <a href={fullUrl} class="thumbnail-link" aria-label={`View ${title}`}>
-    {
-      thumbnailUrl ? (
-        <img
-          src={thumbnailUrl}
-          alt={thumbnailAltText || ''}
-          class="thumbnail"
-          loading="lazy"
-          width="400"
-          height="200"
-        />
-      ) : (
-        <div class="thumbnail placeholder">No Preview</div>
-      )
-    }
+    {thumbnailUrl ? (
+      <img
+        src={thumbnailUrl}
+        alt={thumbnailAltText || ''}
+        class="thumbnail"
+        loading="lazy"
+        width="400"
+        height="200"
+      />
+    ) : (
+      <div class="thumbnail placeholder">No Preview</div>
+    )}
   </a>
   <div class="content">
     <a href={fullUrl} class="title-link" aria-label={`View ${title}`}>
       <h2>{title}</h2>
     </a>
-    <p class="domain"><code>{domain}</code></p>
+    <p class="domain">
+      <code>{domain}</code>
+    </p>
     <p class="description">{description}</p>
     <div class="meta">
       <span class="format-badge">{archiveFormat}</span>
       <span class="date">{formattedDate}</span>
     </div>
-    <a href={fullUrl} target="_blank" rel="noopener noreferrer" class="link"
-      >View Archived Site &rarr;</a
-    >
+    <a href={fullUrl} target="_blank" rel="noopener noreferrer" class="link">
+      View Archived Site &rarr;
+    </a>
   </div>
 </div>
 
